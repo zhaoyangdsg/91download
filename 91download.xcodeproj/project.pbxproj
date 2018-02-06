@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */; };
+		FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */; };
+		FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532F9202176A700AA02EE /* ZYTableViewController.swift */; };
+		FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */; };
+		FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */; };
+		FCE3664E201072A4008BF955 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE3664D201072A4008BF955 /* ViewController.swift */; };
+		FCE36651201072A4008BF955 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCE3664F201072A4008BF955 /* Main.storyboard */; };
+		FCE36653201072A4008BF955 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCE36652201072A4008BF955 /* Assets.xcassets */; };
+		FCE36656201072A4008BF955 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCE36654201072A4008BF955 /* LaunchScreen.storyboard */; };
+		FCE366682010752D008BF955 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE366632010752C008BF955 /* AppDelegate.swift */; };
+		FCE3666A201076F6008BF955 /* ZYNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE36669201076F6008BF955 /* ZYNavViewController.swift */; };
+		FCE3666C201078A9008BF955 /* ZYMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE3666B201078A9008BF955 /* ZYMainViewController.swift */; };
+		FCE3666E20107BA0008BF955 /* ZYWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE3666D20107BA0008BF955 /* ZYWebViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.release.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.release.xcconfig"; sourceTree = "<group>"; };
+		A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_91download.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.debug.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.debug.xcconfig"; sourceTree = "<group>"; };
+		FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZYLeftMemuView.swift; path = 91download/classes/main/view/ZYLeftMemuView.swift; sourceTree = SOURCE_ROOT; };
+		FC51EDC720285D0100A42A98 /* 91download-breage-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "91download-breage-Header.h"; path = "other/91download-breage-Header.h"; sourceTree = "<group>"; };
+		FC8532F9202176A700AA02EE /* ZYTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTableViewController.swift; sourceTree = "<group>"; };
+		FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTabBarViewController.swift; sourceTree = "<group>"; };
+		FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYProfileViewController.swift; sourceTree = "<group>"; };
+		FCE36648201072A3008BF955 /* 91download.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 91download.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCE3664D201072A4008BF955 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FCE36650201072A4008BF955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FCE36652201072A4008BF955 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FCE36655201072A4008BF955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FCE36657201072A5008BF955 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCE366632010752C008BF955 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FCE36669201076F6008BF955 /* ZYNavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYNavViewController.swift; sourceTree = "<group>"; };
+		FCE3666B201078A9008BF955 /* ZYMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYMainViewController.swift; sourceTree = "<group>"; };
+		FCE3666D20107BA0008BF955 /* ZYWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYWebViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FCE36645201072A3008BF955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C5B6CC4C9039F0994AC6340F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEC992DEC3FA8F4BFC022A77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */,
+				573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FCE3663F201072A2008BF955 = {
+			isa = PBXGroup;
+			children = (
+				FCE3664A201072A3008BF955 /* 91download */,
+				FCE36649201072A3008BF955 /* Products */,
+				CEC992DEC3FA8F4BFC022A77 /* Pods */,
+				C5B6CC4C9039F0994AC6340F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FCE36649201072A3008BF955 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FCE36648201072A3008BF955 /* 91download.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FCE3664A201072A3008BF955 /* 91download */ = {
+			isa = PBXGroup;
+			children = (
+				FCE3665D2010752C008BF955 /* classes */,
+				FCE3664D201072A4008BF955 /* ViewController.swift */,
+				FCE3664F201072A4008BF955 /* Main.storyboard */,
+				FCE36652201072A4008BF955 /* Assets.xcassets */,
+				FCE36654201072A4008BF955 /* LaunchScreen.storyboard */,
+				FCE36657201072A5008BF955 /* Info.plist */,
+			);
+			path = 91download;
+			sourceTree = "<group>";
+		};
+		FCE3665D2010752C008BF955 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				FCE3665E2010752C008BF955 /* main */,
+				FCE366642010752D008BF955 /* webController */,
+				FCE366622010752C008BF955 /* other */,
+				FC51EDC720285D0100A42A98 /* 91download-breage-Header.h */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
+		FCE3665E2010752C008BF955 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				FCE3665F2010752C008BF955 /* controller */,
+				FCE366602010752C008BF955 /* model */,
+				FCE366612010752C008BF955 /* view */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		FCE3665F2010752C008BF955 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */,
+				FCE36669201076F6008BF955 /* ZYNavViewController.swift */,
+				FCE3666B201078A9008BF955 /* ZYMainViewController.swift */,
+				FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */,
+				FC8532F9202176A700AA02EE /* ZYTableViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		FCE366602010752C008BF955 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		FCE366612010752C008BF955 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		FCE366622010752C008BF955 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				FCE366632010752C008BF955 /* AppDelegate.swift */,
+			);
+			path = other;
+			sourceTree = "<group>";
+		};
+		FCE366642010752D008BF955 /* webController */ = {
+			isa = PBXGroup;
+			children = (
+				FCE366652010752D008BF955 /* controller */,
+				FCE366662010752D008BF955 /* model */,
+				FCE366672010752D008BF955 /* view */,
+			);
+			path = webController;
+			sourceTree = "<group>";
+		};
+		FCE366652010752D008BF955 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				FCE3666D20107BA0008BF955 /* ZYWebViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		FCE366662010752D008BF955 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		FCE366672010752D008BF955 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FCE36647201072A3008BF955 /* 91download */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCE3665A201072A5008BF955 /* Build configuration list for PBXNativeTarget "91download" */;
+			buildPhases = (
+				740FD76CEDEC497A5F6AB62D /* [CP] Check Pods Manifest.lock */,
+				FCE36644201072A3008BF955 /* Sources */,
+				FCE36645201072A3008BF955 /* Frameworks */,
+				FCE36646201072A3008BF955 /* Resources */,
+				ABCB8BE1AF8B0E7A8B6E4E16 /* [CP] Embed Pods Frameworks */,
+				653F9C883FAC1A635D3FFE36 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = 91download;
+			productName = 91download;
+			productReference = FCE36648201072A3008BF955 /* 91download.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FCE36640201072A2008BF955 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ZY;
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = me2;
+				TargetAttributes = {
+					FCE36647201072A3008BF955 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = FCE36643201072A2008BF955 /* Build configuration list for PBXProject "91download" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FCE3663F201072A2008BF955;
+			productRefGroup = FCE36649201072A3008BF955 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FCE36647201072A3008BF955 /* 91download */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FCE36646201072A3008BF955 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCE36656201072A4008BF955 /* LaunchScreen.storyboard in Resources */,
+				FCE36653201072A4008BF955 /* Assets.xcassets in Resources */,
+				FCE36651201072A4008BF955 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		653F9C883FAC1A635D3FFE36 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-91download/Pods-91download-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		740FD76CEDEC497A5F6AB62D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ABCB8BE1AF8B0E7A8B6E4E16 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-91download/Pods-91download-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FCE36644201072A3008BF955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */,
+				FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */,
+				FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */,
+				FCE3666C201078A9008BF955 /* ZYMainViewController.swift in Sources */,
+				FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */,
+				FCE366682010752D008BF955 /* AppDelegate.swift in Sources */,
+				FCE3664E201072A4008BF955 /* ViewController.swift in Sources */,
+				FCE3666E20107BA0008BF955 /* ZYWebViewController.swift in Sources */,
+				FCE3666A201076F6008BF955 /* ZYNavViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FCE3664F201072A4008BF955 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FCE36650201072A4008BF955 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FCE36654201072A4008BF955 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FCE36655201072A4008BF955 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FCE36658201072A5008BF955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FCE36659201072A5008BF955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FCE3665B201072A5008BF955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H3S239MD82;
+				INFOPLIST_FILE = 91download/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zy.91download;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "91download/classes/other/91download-breage-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FCE3665C201072A5008BF955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H3S239MD82;
+				INFOPLIST_FILE = 91download/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zy.91download;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "91download/classes/other/91download-breage-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FCE36643201072A2008BF955 /* Build configuration list for PBXProject "91download" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCE36658201072A5008BF955 /* Debug */,
+				FCE36659201072A5008BF955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FCE3665A201072A5008BF955 /* Build configuration list for PBXNativeTarget "91download" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCE3665B201072A5008BF955 /* Debug */,
+				FCE3665C201072A5008BF955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FCE36640201072A2008BF955 /* Project object */;
+}
