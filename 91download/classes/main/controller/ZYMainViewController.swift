@@ -15,7 +15,7 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.red
         setupSubView()
-        webView.loadRequest(URLRequest(url: URL(string: "https://www.baidu.com")!))
+        webView.loadRequest(URLRequest(url: URL(string: "http://91dizhi.space")!))
         webView.scrollView.mj_header = MJRefreshNormalHeader.init(refreshingBlock: {
             self.refresh()
         })
@@ -46,6 +46,10 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         webView.scrollView.mj_header.endRefreshing()
+    }
+    
+    public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        
     }
     
     // MARK: - lazy

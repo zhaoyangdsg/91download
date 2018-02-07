@@ -8,5 +8,5 @@ target '91download' do
   # Pods for 91download
 pod 'SnapKit'
 pod 'MJRefresh'
-
+pod 'MBProgressHUD'
 end
