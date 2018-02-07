@@ -9,8 +9,10 @@
 import UIKit
 import SnapKit
 import MJRefresh
+import MBProgressHUD
+import SVProgressHUD
 class ZYMainViewController: UIViewController,UIWebViewDelegate {
-
+    let hud:MBProgressHUD = MBProgressHUD()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.red
@@ -26,13 +28,12 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
         webView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
-        
-
     }
     
     func setupNav() {
 //        navigationItem.leftBarButtonItems = [backBtn]
         navigationItem.leftBarButtonItem = backBtn
+        navigationItem.rightBarButtonItem = downloadBarbtn
     }
     
     @objc func goback() {
@@ -43,23 +44,47 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     }
 
     // MARK: - webdelegate
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        SVProgressHUD.show(withStatus: "正在加载网页")
+        return true
+    }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         webView.scrollView.mj_header.endRefreshing()
+        SVProgressHUD.dismiss()
     }
     
     public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         
+        let hud = MBProgressHUD.showAdded(to: ZYConstant.kWindow , animated: true)
+        hud.mode = MBProgressHUDMode.text
+        hud.detailsLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        hud.detailsLabel.text = "网页加载出错"
+        hud.margin = 10
+        hud.removeFromSuperViewOnHide = true
+        hud.hide(animated: true, afterDelay: 1)
+    }
+    
+    // MARK: - action
+    @objc func downLoad() {
+        print("downloading..")
     }
     
     // MARK: - lazy
     
     /** backBtn */
     lazy var backBtn: UIBarButtonItem = {
-        let btn =  UIBarButtonItem(title: "后退", style: UIBarButtonItemStyle.plain, target: self, action: #selector(goback))
+        let btn = UIBarButtonItem.init(image: UIImage.init(named: "back_T_Nav"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(goback))
+        
         return btn
     }()
-    
+    /** downBtn */
+    lazy var downloadBarbtn: UIBarButtonItem = {
+        
+        let barBtn = UIBarButtonItem.init(customView: downloadBtn)
+        
+        return barBtn
+    }()
     /** webView */
     lazy var webView: UIWebView = {
         let webView = UIWebView()
@@ -73,6 +98,15 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
         let view = UIView()
         view.backgroundColor = UIColor.red
         return view 
+    }()
+    
+    lazy var downloadBtn: UIButton = {
+       let btn = UIButton.init(type: UIButtonType.custom)
+        btn.setTitle("下载", for: UIControlState.normal)
+        btn.setTitle("", for: UIControlState.disabled)
+        btn.setTitleColor(ZYConstant.kItemColor, for: UIControlState.normal)
+        btn.addTarget(self, action: #selector(downLoad), for: UIControlEvents.touchUpInside)
+        return btn
     }()
 
     /*

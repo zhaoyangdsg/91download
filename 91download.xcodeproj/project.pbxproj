@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */; };
 		FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */; };
+		FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */; };
 		FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532F9202176A700AA02EE /* ZYTableViewController.swift */; };
 		FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */; };
 		FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */; };
@@ -27,6 +28,7 @@
 		A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_91download.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.debug.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.debug.xcconfig"; sourceTree = "<group>"; };
 		FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZYLeftMemuView.swift; path = 91download/classes/main/view/ZYLeftMemuView.swift; sourceTree = SOURCE_ROOT; };
+		FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYConstant.swift; sourceTree = "<group>"; };
 		FC51EDC720285D0100A42A98 /* 91download-breage-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "91download-breage-Header.h"; path = "other/91download-breage-Header.h"; sourceTree = "<group>"; };
 		FC8532F9202176A700AA02EE /* ZYTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTableViewController.swift; sourceTree = "<group>"; };
 		FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTabBarViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				FCE366632010752C008BF955 /* AppDelegate.swift */,
+				FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */,
 			);
 			path = other;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 			files = (
 				FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */,
 				FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */,
+				FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */,
 				FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */,
 				FCE3666C201078A9008BF955 /* ZYMainViewController.swift in Sources */,
 				FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */,
@@ -463,6 +467,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H3S239MD82;
+				GCC_PREFIX_HEADER = /classes/other/ZYConstant.swift;
 				INFOPLIST_FILE = 91download/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -481,6 +486,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H3S239MD82;
+				GCC_PREFIX_HEADER = /classes/other/ZYConstant.swift;
 				INFOPLIST_FILE = 91download/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
