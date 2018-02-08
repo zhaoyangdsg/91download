@@ -46,12 +46,21 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     // MARK: - webdelegate
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         SVProgressHUD.show(withStatus: "正在加载网页")
+        print(webView.request?.url?.absoluteString)
         return true
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         webView.scrollView.mj_header.endRefreshing()
         SVProgressHUD.dismiss()
+        getMp4Url()
+    }
+    
+    private func getMp4Url() {
+        //输出网页内容
+        let js = "document.documentElement.innerHTML"
+        //let htmlAll = webView.stringByEvaluatingJavaScript(from: js)
+        //print("\(htmlAll)")
     }
     
     public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
