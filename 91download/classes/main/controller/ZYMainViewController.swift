@@ -13,6 +13,7 @@ import MBProgressHUD
 import SVProgressHUD
 class ZYMainViewController: UIViewController,UIWebViewDelegate {
     let hud:MBProgressHUD = MBProgressHUD()
+    var temUrlStr:String?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.red
@@ -33,7 +34,8 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     func setupNav() {
 //        navigationItem.leftBarButtonItems = [backBtn]
         navigationItem.leftBarButtonItem = backBtn
-        navigationItem.rightBarButtonItem = downloadBarbtn
+        //navigationItem.rightBarButtonItem = downloadBarbtn
+        
     }
     
     @objc func goback() {
@@ -46,21 +48,63 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     // MARK: - webdelegate
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         SVProgressHUD.show(withStatus: "正在加载网页")
-        print(webView.request?.url?.absoluteString)
         return true
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
+        print(webView.request?.url?.absoluteString)
         webView.scrollView.mj_header.endRefreshing()
         SVProgressHUD.dismiss()
-        getMp4Url()
+        // 判断是否是观影界面
+        if checkIsVideoView() {
+            // 判断获取mp4地址
+            let urlStr =  getMp4Url()
+            if urlStr != nil && urlStr != "" {
+                // 如果获取到了MP4地址 停止加载
+                webView.stopLoading()
+                navigationItem.rightBarButtonItem = downloadBarbtn
+                downloadBarbtn.action = #selector(downLoad)
+                temUrlStr = urlStr
+                
+                // 视频留言 videodetails videodetails-content
+                let commentJS = "document.getElementById('videodetails').style.display=='none' "
+                webView.stringByEvaluatingJavaScript(from: commentJS)
+                
+                let contentJS = "document.getElementById('videodetails-content').style.display=='none' "
+                webView.stringByEvaluatingJavaScript(from: contentJS)
+                
+                let allJS = "document.documentElement.innerHTML"
+                let htmlAll = webView.stringByEvaluatingJavaScript(from: allJS)
+                print(htmlAll!)
+            }
+            
+            //let videoHtml = webView.stringByEvaluatingJavaScript(from: videoJS)
+        }else {
+            temUrlStr = nil
+        }
+        
     }
     
-    private func getMp4Url() {
+    private func checkIsVideoView() ->Bool {
+        let urlStr = (webView.request?.url?.absoluteString)!
+        if NSString.init(string: urlStr).contains("view_video.php?viewkey=") {
+            return true
+        }
+        return false
+    }
+    
+    private func getMp4Url() -> String?  {
         //输出网页内容
-        let js = "document.documentElement.innerHTML"
-        //let htmlAll = webView.stringByEvaluatingJavaScript(from: js)
-        //print("\(htmlAll)")
+        let videoJS = "document.getElementById('vid').innerHTML"
+        
+        let allJS = "document.documentElement.innerHTML"
+        //let htmlAll = webView.stringByEvaluatingJavaScript(from: allJS)
+        // vid_html5_api src
+        let srcJS = "document.getElementById('vid_html5_api').src"
+        let scrStr = webView.stringByEvaluatingJavaScript(from: srcJS)
+        print("-----"+scrStr!)
+        
+        return scrStr
     }
     
     public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
@@ -76,7 +120,8 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     
     // MARK: - action
     @objc func downLoad() {
-        print("downloading..")
+        print("downloading.."+temUrlStr!)
+        
     }
     
     // MARK: - lazy

@@ -10,6 +10,8 @@
 		02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */; };
 		FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */; };
 		FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */; };
+		FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */; };
+		FC4CF9E5202D997E00662571 /* ZYDownloadTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9E4202D997E00662571 /* ZYDownloadTool.swift */; };
 		FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532F9202176A700AA02EE /* ZYTableViewController.swift */; };
 		FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */; };
 		FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */; };
@@ -29,6 +31,8 @@
 		E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.debug.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.debug.xcconfig"; sourceTree = "<group>"; };
 		FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZYLeftMemuView.swift; path = 91download/classes/main/view/ZYLeftMemuView.swift; sourceTree = SOURCE_ROOT; };
 		FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYConstant.swift; sourceTree = "<group>"; };
+		FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
+		FC4CF9E4202D997E00662571 /* ZYDownloadTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadTool.swift; sourceTree = "<group>"; };
 		FC51EDC720285D0100A42A98 /* 91download-breage-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "91download-breage-Header.h"; path = "other/91download-breage-Header.h"; sourceTree = "<group>"; };
 		FC8532F9202176A700AA02EE /* ZYTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTableViewController.swift; sourceTree = "<group>"; };
 		FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTabBarViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +76,22 @@
 				573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		FC4CF9E0202D8C9F00662571 /* category */ = {
+			isa = PBXGroup;
+			children = (
+				FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */,
+			);
+			path = category;
+			sourceTree = "<group>";
+		};
+		FC4CF9E3202D996600662571 /* tool */ = {
+			isa = PBXGroup;
+			children = (
+				FC4CF9E4202D997E00662571 /* ZYDownloadTool.swift */,
+			);
+			path = tool;
 			sourceTree = "<group>";
 		};
 		FCE3663F201072A2008BF955 = {
@@ -156,6 +176,8 @@
 		FCE366622010752C008BF955 /* other */ = {
 			isa = PBXGroup;
 			children = (
+				FC4CF9E3202D996600662571 /* tool */,
+				FC4CF9E0202D8C9F00662571 /* category */,
 				FCE366632010752C008BF955 /* AppDelegate.swift */,
 				FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */,
 			);
@@ -322,7 +344,9 @@
 				FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */,
 				FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */,
 				FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */,
+				FC4CF9E5202D997E00662571 /* ZYDownloadTool.swift in Sources */,
 				FCE3666C201078A9008BF955 /* ZYMainViewController.swift in Sources */,
+				FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */,
 				FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */,
 				FCE366682010752D008BF955 /* AppDelegate.swift in Sources */,
 				FCE3664E201072A4008BF955 /* ViewController.swift in Sources */,
