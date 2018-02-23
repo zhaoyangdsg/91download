@@ -23,11 +23,11 @@ class ZYDownloadTool: NSObject {
     func addToDownloadAry(url: String) {
         downAry?.append(url)
     }
-    
+    // https://www.jianshu.com/p/af3eb9501fe0
     func download(urlStr: String) {
         let url = URL.init(string: urlStr)
         URLSession.shared.downloadTask(with: url!) { (urlData, urlresp, error) in
-            URLResponse
+            
             print(urlresp)
         }
     }
