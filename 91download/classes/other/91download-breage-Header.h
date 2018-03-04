@@ -13,6 +13,6 @@
 //#endif /* _1download_breage_Header_h */
 
 #import "MJRefresh/MJRefresh.h"
-#import "MBProgressHUD/MBProgressHUD.h"
+//#import "MBProgressHUD/MBProgressHUD.h"
 #import "SVProgressHUD/SVProgressHUD.h"
 

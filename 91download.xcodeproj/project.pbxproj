@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */; };
+		DD2EEC00204A938D00E9BD8B /* ZYDownloadObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2EEBFF204A938D00E9BD8B /* ZYDownloadObject.swift */; };
 		FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */; };
 		FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */; };
 		FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.release.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.release.xcconfig"; sourceTree = "<group>"; };
 		A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_91download.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD2EEBFF204A938D00E9BD8B /* ZYDownloadObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadObject.swift; sourceTree = "<group>"; };
 		E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.debug.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.debug.xcconfig"; sourceTree = "<group>"; };
 		FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZYLeftMemuView.swift; path = 91download/classes/main/view/ZYLeftMemuView.swift; sourceTree = SOURCE_ROOT; };
 		FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYConstant.swift; sourceTree = "<group>"; };
@@ -78,6 +80,14 @@
 				573595A3D442D256AFC79876 /* Pods-91download.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		DD2EEBFE204A934C00E9BD8B /* model */ = {
+			isa = PBXGroup;
+			children = (
+				DD2EEBFF204A938D00E9BD8B /* ZYDownloadObject.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		FC4CF9E0202D8C9F00662571 /* category */ = {
@@ -179,6 +189,7 @@
 		FCE366622010752C008BF955 /* other */ = {
 			isa = PBXGroup;
 			children = (
+				DD2EEBFE204A934C00E9BD8B /* model */,
 				FC4CF9E3202D996600662571 /* tool */,
 				FC4CF9E0202D8C9F00662571 /* category */,
 				FCE366632010752C008BF955 /* AppDelegate.swift */,
@@ -312,13 +323,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-91download-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ABCB8BE1AF8B0E7A8B6E4E16 /* [CP] Embed Pods Frameworks */ = {
@@ -327,9 +341,18 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-91download/Pods-91download-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,6 +369,7 @@
 				FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */,
 				FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */,
 				FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */,
+				DD2EEC00204A938D00E9BD8B /* ZYDownloadObject.swift in Sources */,
 				FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */,
 				FC4CF9E5202D997E00662571 /* ZYDownloadTool.swift in Sources */,
 				FCE3666C201078A9008BF955 /* ZYMainViewController.swift in Sources */,

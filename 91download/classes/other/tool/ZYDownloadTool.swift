@@ -7,36 +7,65 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
+    private var resumeData:Data?
+    private var session:URLSession?
+    private var task:URLSessionDownloadTask?
+    
+    static let staticTool = ZYDownloadTool()
+    // 未完成下载队列
+    private var downAry:[String]?
+    // 本地已下载文件路径
+    private var localFileAry:[downloadedObj]?
+    
+    typealias downloadedObj = downloadedObject_struct
+    struct downloadedObject_struct {
+        var name:String
+        var path:String
+    }
+    
+    
+    // MARK: - <##>URLSessionDownloadDelegate
     // 下载完成
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         print("下载完成")
+    
         print("location"+location.path)
-        let dirStr:String  = String.cacheDir((downloadTask.response?.suggestedFilename!)!)()
+        let fileName = (downloadTask.response?.suggestedFilename!)!
+        let dirStr:String  = String.cacheDir(fileName)()
         
         do {
             try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
+            let downloadObj = downloadedObj(name: fileName, path: dirStr)
+            localFileAry?.append(downloadObj)
         } catch  {
             print("保存文件失败")
         }
         session.invalidateAndCancel()
     }
     // 任务完成时调用，但是不一定下载完成；用户点击暂停后，也会调用这个方法
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    internal func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         print("暂停或下载完成")
+        if error != nil {
+            if let data = (error! as NSError).userInfo["NSURLSessionDownloadTaskResumeData"] as? Data {
+                resumeData = data
+            }
+        }
     }
     // 每下载完一部分调用，可能会调用多次
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         print("下载了部分")
+        print("已下载: \(bytesWritten)")
+        print("总大小: \(totalBytesExpectedToWrite)")
     }
     // 恢复下载
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
+    internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
         print("恢复下载")
     }
     
-    static let staticTool = ZYDownloadTool()
-    private var downAry:[String]?
+
     private override init() {
         super.init()
         print("tool init ")
@@ -45,6 +74,7 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
         return staticTool
     }
     
+    // 加入下载队列
     func addToDownloadAry(url: String) {
         downAry?.append(url)
     }
@@ -56,18 +86,38 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
      使用会话对象创建一个任务
      调用任务的resume()方法，开始执行任务
     */
+    // 开始下载
     func download(urlStr: String) {
         let url = URL.init(string: urlStr)
         // 给config一个标识 用来区别不同的任务
         let config = URLSessionConfiguration.background(withIdentifier: "0001")
         // 是否允许后台下载
         config.isDiscretionary = true
-        let session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
-        if let url2 = url {
-           let downTask = session.downloadTask(with: url2)
-            
-            downTask.resume()
-        }
+        session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
         
+        if let url2 = url {
+           let downTask = session!.downloadTask(with: url2)
+            downTask.resume()
+            task = downTask
+        }
+    }
+    // 恢复下载
+    func resumeDownload() {
+        if resumeData != nil {
+            let task = session!.downloadTask(withResumeData: resumeData!)
+            task.resume()
+            self.task = task
+        }
+    }
+    
+    // 暂停下载
+    func pauseDownload() {
+        if task != nil {
+            task!.cancel(byProducingResumeData: { (data) in
+                if data != nil {
+                    self.resumeData = data
+                }
+            })
+        }
     }
 }
