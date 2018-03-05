@@ -29,8 +29,15 @@ class ZYTabBarViewController: UITabBarController {
         tabitem2.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.green], for: UIControlState.selected)
         vc2.tabBarItem = tabitem2
         
+        let vc3 = ZYNavViewController(rootViewController: ZYDownloadViewController())
+        let tabitem3 = UITabBarItem(title: "下载", image: UIImage.init(named: "project_normal") , selectedImage: UIImage.init(named: "project_selected"))
+        tabitem3.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.gray], for: UIControlState.normal)
+        tabitem3.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.green], for: UIControlState.selected)
+        vc3.tabBarItem = tabitem3
+        
         self.addChildViewController(vc1)
         self.addChildViewController(vc2)
+        self.addChildViewController(vc3)
     }
 
     override func didReceiveMemoryWarning() {

@@ -17,6 +17,7 @@
 		FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */; };
 		FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */; };
 		FCC5F907204936D80031463E /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F906204936D80031463E /* String+Extension.swift */; };
+		FCC5F909204CE8CE0031463E /* ZYDownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F908204CE8CE0031463E /* ZYDownloadViewController.swift */; };
 		FCE3664E201072A4008BF955 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE3664D201072A4008BF955 /* ViewController.swift */; };
 		FCE36651201072A4008BF955 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCE3664F201072A4008BF955 /* Main.storyboard */; };
 		FCE36653201072A4008BF955 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCE36652201072A4008BF955 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		FC8532FB2021770900AA02EE /* ZYTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYTabBarViewController.swift; sourceTree = "<group>"; };
 		FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYProfileViewController.swift; sourceTree = "<group>"; };
 		FCC5F906204936D80031463E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		FCC5F908204CE8CE0031463E /* ZYDownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadViewController.swift; sourceTree = "<group>"; };
 		FCE36648201072A3008BF955 /* 91download.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 91download.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE3664D201072A4008BF955 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FCE36650201072A4008BF955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				FCE3666B201078A9008BF955 /* ZYMainViewController.swift */,
 				FC8532FD2021776600AA02EE /* ZYProfileViewController.swift */,
 				FC8532F9202176A700AA02EE /* ZYTableViewController.swift */,
+				FCC5F908204CE8CE0031463E /* ZYDownloadViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				FCC5F907204936D80031463E /* String+Extension.swift in Sources */,
 				FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */,
 				FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */,
+				FCC5F909204CE8CE0031463E /* ZYDownloadViewController.swift in Sources */,
 				FCE366682010752D008BF955 /* AppDelegate.swift in Sources */,
 				FCE3664E201072A4008BF955 /* ViewController.swift in Sources */,
 				FCE3666E20107BA0008BF955 /* ZYWebViewController.swift in Sources */,

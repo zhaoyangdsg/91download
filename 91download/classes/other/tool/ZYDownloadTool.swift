@@ -13,14 +13,17 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     private var resumeData:Data?
     private var session:URLSession?
     private var task:URLSessionDownloadTask?
+    private var currentUrl:String?
     
     static let staticTool = ZYDownloadTool()
     // 未完成下载队列
     private var downAry:[String]?
-    // 本地已下载文件路径
-    private var localFileAry:[downloadedObj]?
     
     typealias downloadedObj = downloadedObject_struct
+    // 本地已下载文件路径
+    private var localFileAry = Array<downloadedObj>()
+    
+   
     struct downloadedObject_struct {
         var name:String
         var path:String
@@ -35,11 +38,15 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
         print("location"+location.path)
         let fileName = (downloadTask.response?.suggestedFilename!)!
         let dirStr:String  = String.cacheDir(fileName)()
-        
+        print("文件路径:\(dirStr)")
         do {
             try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
             let downloadObj = downloadedObj(name: fileName, path: dirStr)
-            localFileAry?.append(downloadObj)
+            localFileAry.append(downloadObj)
+            print("已下载的文件: /n \(localFileAry)")
+            UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
+            UserDefaults.standard.synchronize()
+            
         } catch  {
             print("保存文件失败")
         }
@@ -57,7 +64,8 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     // 每下载完一部分调用，可能会调用多次
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         print("下载了部分")
-        print("已下载: \(bytesWritten)")
+        print("已下载: \(totalBytesWritten)")
+        
         print("总大小: \(totalBytesExpectedToWrite)")
     }
     // 恢复下载
@@ -87,10 +95,16 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
      调用任务的resume()方法，开始执行任务
     */
     // 开始下载
-    func download(urlStr: String) {
-        let url = URL.init(string: urlStr)
+    func download(urlStr: String?) {
+        print("开始下载")
+        var url:URL?
+        if urlStr != nil {
+            url = URL.init(string: urlStr!)!
+            currentUrl = urlStr
+        }
+        
         // 给config一个标识 用来区别不同的任务
-        let config = URLSessionConfiguration.background(withIdentifier: "0001")
+        let config = URLSessionConfiguration.background(withIdentifier: "0002")
         // 是否允许后台下载
         config.isDiscretionary = true
         session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
