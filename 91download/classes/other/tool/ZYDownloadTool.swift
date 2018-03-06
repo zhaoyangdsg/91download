@@ -9,6 +9,10 @@
 import UIKit
 import SVProgressHUD
 
+protocol ZYDownloadToolDelegate:NSObjectProtocol {
+    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)
+}
+
 class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     private var resumeData:Data?
     private var session:URLSession?
@@ -21,8 +25,9 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     
     typealias downloadedObj = downloadedObject_struct
     // 本地已下载文件路径
-    private var localFileAry = Array<downloadedObj>()
+    private var localFileAry:Array<String> = UserDefaults.standard.array(forKey: "localFileAry") as! Array<String>
     
+    weak var delegate:ZYDownloadToolDelegate?
    
     struct downloadedObject_struct {
         var name:String
@@ -37,13 +42,14 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     
         print("location"+location.path)
         let fileName = (downloadTask.response?.suggestedFilename!)!
-        let dirStr:String  = String.cacheDir(fileName)()
+        let dirStr  = String.cacheDir("download/video/\(fileName)")()
         print("文件路径:\(dirStr)")
         do {
             try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
-            let downloadObj = downloadedObj(name: fileName, path: dirStr)
-            localFileAry.append(downloadObj)
+            //let downloadObj = downloadedObj(name: fileName, path: dirStr)
+            localFileAry.append(fileName)
             print("已下载的文件: /n \(localFileAry)")
+            // 存储已下载文件名
             UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
             UserDefaults.standard.synchronize()
             
@@ -65,8 +71,11 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         print("下载了部分")
         print("已下载: \(totalBytesWritten)")
-        
         print("总大小: \(totalBytesExpectedToWrite)")
+        if self.delegate != nil {
+            delegate?.didWriteData(bytesWritten: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+        }
+        
     }
     // 恢复下载
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
@@ -99,7 +108,9 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
         print("开始下载")
         var url:URL?
         if urlStr != nil {
-            url = URL.init(string: urlStr!)!
+             url = URL.init(string: urlStr!)!
+            // test
+            //url = URL.init(string: "http://120.25.226.186:32812/resources/videos/minion_01.mp4")
             currentUrl = urlStr
         }
         

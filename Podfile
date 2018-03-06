@@ -10,4 +10,6 @@ pod 'SnapKit'
 pod 'MJRefresh'
 pod 'MBProgressHUD'
 pod 'SVProgressHUD'
+pod 'BMPlayer', '~> 1.0.0'
+pod 'ZFDownload'
 end

@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import MJRefresh
+import AVKit
+class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
+    
+    var currentProgress = ""
 
-class ZYDownloadViewController: UITableViewController {
+    
 
-    var localFileAry = Array<ZYDownloadTool.downloadedObj>()
+    var localFileAry = Array<String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,16 +26,25 @@ class ZYDownloadViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        
         addSubview()
+        self.tableView.mj_header.beginRefreshing()
+        
+        ZYDownloadTool.shareTool().delegate = self
+    }
+    private func loadLocalFile() {
         if let ary = UserDefaults.standard.array(forKey: "localFileAry") {
-            localFileAry = ary as! Array<ZYDownloadTool.downloadedObj>
-            
-            
-            
+            localFileAry = ary as! Array<String>
         }
     }
     
     private func addSubview() {
+        self.tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
+            self.loadLocalFile()
+            self.tableView.reloadData()
+            self.tableView.mj_header.endRefreshing()
+        })
+        
         view.addSubview(startBtn)
         view.addSubview(pauseBtn)
         view.addSubview(resumeBtn)
@@ -65,6 +79,11 @@ class ZYDownloadViewController: UITableViewController {
         ZYDownloadTool.shareTool().resumeDownload()
     }
     
+    // MARK: - downloaddelegate
+    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        currentProgress = "\(totalBytesWritten) / \(totalBytesExpectedToWrite)"
+        tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: UITableViewRowAnimation.none)
+    }
 
     // MARK: - Table view data source
 
@@ -90,10 +109,34 @@ class ZYDownloadViewController: UITableViewController {
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = localFileAry[indexPath.row].name
+        cell.textLabel?.text = localFileAry[indexPath.row]
+        cell.detailTextLabel?.text = currentProgress
         // Configure the cell...
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let fileName = localFileAry[indexPath.row]
+//        let playerController = ZYPlayVideoViewController()
+//        self.navigationController?.pushViewController(playerController, animated: true)
+//        playerController.fileUrlStr = fileName
+        let urlStr = String.cacheDir(fileName)()
+        print(urlStr)
+        let item = AVPlayerItem(url:URL(fileURLWithPath: urlStr ))
+        let play = AVPlayer(playerItem:item)
+        let playController = AVPlayerViewController()
+        playController.player = play
+        self.present(playController, animated: true, completion: {
+            
+        })
+        
+        
+//        let url = URL.init(fileURLWithPath: String.cacheDir(fileName)())
+//        let webView = UIWebView()
+//        webView.frame = CGRect.init(x: 0, y: 0, width: 300, height: 200)
+//        self.view.addSubview(webView)
+//        webView.loadRequest(URLRequest.init(url: url))
     }
     
 

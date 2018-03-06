@@ -120,11 +120,13 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     
     // MARK: - action
     @objc func downLoad() {
-        print("downloading.."+temUrlStr!)
+        print("downloading..\(temUrlStr)")
         if temUrlStr != nil {
-            ZYDownloadTool.shareTool().download(urlStr: temUrlStr!)
+           let downloadTool = ZYDownloadTool.shareTool()
+            downloadTool.download(urlStr: temUrlStr!)
             //self.navigationController?.pushViewController(ZYDownloadViewController(), animated: true)
             self.navigationController?.tabBarController?.selectedIndex = 2
+//            downloadTool.delegate = navigationController?.tabBarController?.selectedViewController
         }
     }
     

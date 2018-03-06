@@ -14,6 +14,7 @@ class ZYTabBarViewController: UITabBarController {
         super.viewDidLoad()
 
         setChildVcs()
+        someSet()
     }
     
     func setChildVcs() {
@@ -38,6 +39,15 @@ class ZYTabBarViewController: UITabBarController {
         self.addChildViewController(vc1)
         self.addChildViewController(vc2)
         self.addChildViewController(vc3)
+    }
+    
+    func someSet() {
+        if UserDefaults.standard.array(forKey: "localFileAry") != nil {
+            return
+        }else {
+            var ary = Array<String>()
+            UserDefaults.standard.set(ary, forKey: "localFileAry")
+        }
     }
 
     override func didReceiveMemoryWarning() {
