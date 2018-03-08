@@ -36,10 +36,13 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     
     
     // MARK: - <##>URLSessionDownloadDelegate
+    // http://www.cocoachina.com/swift/20170713/19853.html
+
     // 下载完成
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         print("下载完成")
-    
+        downloadTask.response?.suggestedFilename
+        // tmp文件地址
         print("location"+location.path)
         let fileName = (downloadTask.response?.suggestedFilename!)!
         let dirStr  = String.cacheDir("download/video/\(fileName)")()
@@ -62,6 +65,7 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     internal func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         print("暂停或下载完成")
         if error != nil {
+            
             if let data = (error! as NSError).userInfo["NSURLSessionDownloadTaskResumeData"] as? Data {
                 resumeData = data
             }
@@ -69,6 +73,7 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     }
     // 每下载完一部分调用，可能会调用多次
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        
         print("下载了部分")
         print("已下载: \(totalBytesWritten)")
         print("总大小: \(totalBytesExpectedToWrite)")
@@ -87,8 +92,9 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
         super.init()
         print("tool init ")
     }
-    class func shareTool() ->ZYDownloadTool {
-        return staticTool
+    private static var tool = ZYDownloadTool()
+    class var shareTool:ZYDownloadTool {
+        return tool
     }
     
     // 加入下载队列
@@ -105,25 +111,26 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     */
     // 开始下载
     func download(urlStr: String?) {
+        
         print("开始下载")
         var url:URL?
         if urlStr != nil {
-             url = URL.init(string: urlStr!)!
+             url = URL.init(string: urlStr!)
             // test
             //url = URL.init(string: "http://120.25.226.186:32812/resources/videos/minion_01.mp4")
             currentUrl = urlStr
         }
         
         // 给config一个标识 用来区别不同的任务
-        let config = URLSessionConfiguration.background(withIdentifier: "0002")
+        let config = URLSessionConfiguration.background(withIdentifier: "com.zy.91download_\(Date())")
         // 是否允许后台下载
         config.isDiscretionary = true
-        session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
         
         if let url2 = url {
-           let downTask = session!.downloadTask(with: url2)
+           let downTask = session.downloadTask(with: url2)
             downTask.resume()
-            task = downTask
+           // task = downTask
         }
     }
     // 恢复下载

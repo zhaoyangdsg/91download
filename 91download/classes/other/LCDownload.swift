@@ -18,7 +18,7 @@ class  LCDownload: NSObject {
 
     var dataTask: URLSessionDataTask?
     var outputStream: OutputStream?
-    var allLength: Int = 0
+    var allLength: Int64 = 0
     var progressBlock: ((_ progress: Float) -> Void)?
     var stateBlock: ((_ state: LCDownloadState) -> Void)?
 }
