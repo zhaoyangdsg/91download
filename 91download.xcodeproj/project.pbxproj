@@ -22,6 +22,9 @@
 		FCC5F90E204FF0980031463E /* LCDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F90C204FF0950031463E /* LCDownload.swift */; };
 		FCC5F90F204FF0980031463E /* LCSwiftDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F90D204FF0970031463E /* LCSwiftDownload.swift */; };
 		FCC5F91120510F9F0031463E /* ZYDownloadObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F91020510F9F0031463E /* ZYDownloadObj.swift */; };
+		FCC5F9142052637E0031463E /* ZYDownloadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F9132052637E0031463E /* ZYDownloadModel.swift */; };
+		FCC5F91620526DF50031463E /* ZYOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F91520526DF50031463E /* ZYOperation.swift */; };
+		FCC5F918205286F00031463E /* ZYDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC5F917205286F00031463E /* ZYDownloadManager.swift */; };
 		FCE3664E201072A4008BF955 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE3664D201072A4008BF955 /* ViewController.swift */; };
 		FCE36651201072A4008BF955 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCE3664F201072A4008BF955 /* Main.storyboard */; };
 		FCE36653201072A4008BF955 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCE36652201072A4008BF955 /* Assets.xcassets */; };
@@ -51,6 +54,9 @@
 		FCC5F90C204FF0950031463E /* LCDownload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCDownload.swift; sourceTree = "<group>"; };
 		FCC5F90D204FF0970031463E /* LCSwiftDownload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCSwiftDownload.swift; sourceTree = "<group>"; };
 		FCC5F91020510F9F0031463E /* ZYDownloadObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadObj.swift; sourceTree = "<group>"; };
+		FCC5F9132052637E0031463E /* ZYDownloadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadModel.swift; sourceTree = "<group>"; };
+		FCC5F91520526DF50031463E /* ZYOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYOperation.swift; sourceTree = "<group>"; };
+		FCC5F917205286F00031463E /* ZYDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadManager.swift; sourceTree = "<group>"; };
 		FCE36648201072A3008BF955 /* 91download.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 91download.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE3664D201072A4008BF955 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FCE36650201072A4008BF955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -112,10 +118,21 @@
 		FC4CF9E3202D996600662571 /* tool */ = {
 			isa = PBXGroup;
 			children = (
+				FCC5F912205263680031463E /* ZYDownload */,
 				FC4CF9E4202D997E00662571 /* ZYDownloadTool.swift */,
 				FCC5F91020510F9F0031463E /* ZYDownloadObj.swift */,
 			);
 			path = tool;
+			sourceTree = "<group>";
+		};
+		FCC5F912205263680031463E /* ZYDownload */ = {
+			isa = PBXGroup;
+			children = (
+				FCC5F9132052637E0031463E /* ZYDownloadModel.swift */,
+				FCC5F91520526DF50031463E /* ZYOperation.swift */,
+				FCC5F917205286F00031463E /* ZYDownloadManager.swift */,
+			);
+			path = ZYDownload;
 			sourceTree = "<group>";
 		};
 		FCE3663F201072A2008BF955 = {
@@ -381,8 +398,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCC5F9142052637E0031463E /* ZYDownloadModel.swift in Sources */,
 				FC8532FC2021770900AA02EE /* ZYTabBarViewController.swift in Sources */,
 				FC8532FA202176A800AA02EE /* ZYTableViewController.swift in Sources */,
+				FCC5F91620526DF50031463E /* ZYOperation.swift in Sources */,
 				FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */,
 				DD2EEC00204A938D00E9BD8B /* ZYDownloadObject.swift in Sources */,
 				FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */,
@@ -393,6 +412,7 @@
 				FCC5F907204936D80031463E /* String+Extension.swift in Sources */,
 				FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */,
 				FCC5F90F204FF0980031463E /* LCSwiftDownload.swift in Sources */,
+				FCC5F918205286F00031463E /* ZYDownloadManager.swift in Sources */,
 				FCC5F90B204E46F70031463E /* ZYPlayVideoViewController.swift in Sources */,
 				FC8532FE2021776600AA02EE /* ZYProfileViewController.swift in Sources */,
 				FCC5F909204CE8CE0031463E /* ZYDownloadViewController.swift in Sources */,
