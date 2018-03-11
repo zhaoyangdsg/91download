@@ -41,7 +41,6 @@ class ZYDownloadTool: NSObject,URLSessionDownloadDelegate {
     // 下载完成
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         print("下载完成")
-        downloadTask.response?.suggestedFilename
         // tmp文件地址
         print("location"+location.path)
         let fileName = (downloadTask.response?.suggestedFilename!)!

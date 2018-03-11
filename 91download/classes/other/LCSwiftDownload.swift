@@ -1,3 +1,4 @@
+
 //
 //  LCSwiftDownload.swift
 //  LCDownloadDemo
@@ -8,20 +9,20 @@
 
 import UIKit
 
-class LCSwiftDownload: NSObject , URLSessionDataDelegate {
-
-   
+class LCSwiftDownload: NSObject,URLSessionDataDelegate {
+    
+    
     private lazy var downloadDic: [String: LCDownload] = {
         return [:]
     }()
- 
+    
     
     private static var sDownload = LCSwiftDownload()
     class var sharedInstance: LCSwiftDownload {
         return sDownload
     }
     
- 
+    
     /**
      在点击事件中使用
      
@@ -52,12 +53,13 @@ class LCSwiftDownload: NSObject , URLSessionDataDelegate {
             }
         }else {
             let request = NSMutableURLRequest(url: NSURL(string: url)! as URL)
-            let session = initSession()
-
+            /**
+            let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil)//urlse  //initSession()
+            
             request.setValue("bytes=\(fileLength)-", forHTTPHeaderField: "Range")
             let dataTask = session.dataTask(with: request as URLRequest)
             dataTask.setValue(tag, forKey: "taskIdentifier")
-          
+            
             let download = LCDownload()
             download.dataTask = dataTask
             download.progressBlock = progerss
@@ -66,6 +68,7 @@ class LCSwiftDownload: NSObject , URLSessionDataDelegate {
             if resume {
                 dataTask.resume()
             }
+             */
         }
         
     }
@@ -93,7 +96,7 @@ class LCSwiftDownload: NSObject , URLSessionDataDelegate {
     func getDownloadedData(tag: Int) -> NSData? {
         return getFileDownloadedData(tag: tag)
     }
-  
+    
     
     /**
      开始
@@ -144,7 +147,7 @@ class LCSwiftDownload: NSObject , URLSessionDataDelegate {
         return 0
     }
     
-   
+    
     /**
      获取进度
      
@@ -211,7 +214,7 @@ class LCSwiftDownload: NSObject , URLSessionDataDelegate {
         }
     }
     
-   
+    
 }
 
 private extension LCSwiftDownload {
@@ -277,10 +280,10 @@ private extension LCSwiftDownload {
         return data!.length
     }
     
-    func initSession() -> URLSession? {
-//        return URLSession.init
-        return URLSession.init()
-    }
+//    func initSession() -> URLSession {
+//        //        return URLSession.init
+//        return URLSession()
+//    }
     
     // 获取本地下载的数据
     func getFileDownloadedData(tag: Int) -> NSData? {
@@ -301,10 +304,10 @@ private extension LCSwiftDownload {
         dic?.setValue(String(length), forKey: key)
         dic?.write(toFile: path, atomically: true)
     }
-  
+    
     // 删除中大小
     func removeAllLength(tag: Int) {
-         let path = getFileAllLengthPath()
+        let path = getFileAllLengthPath()
         let dic = getFileAllLengthDic()
         let key = initFileAllLengthKey(tag: tag)
         dic?.removeObject(forKey: key)
@@ -312,7 +315,7 @@ private extension LCSwiftDownload {
     }
     
 }
- extension LCSwiftDownload {
+extension LCSwiftDownload {
     // 收到响应
     func URLSession(session: URLSession, dataTask: URLSessionDataTask, didReceiveResponse response: URLResponse, completionHandler: (URLSession.ResponseDisposition) -> Void) {
         
@@ -328,21 +331,21 @@ private extension LCSwiftDownload {
         }
         
         completionHandler(.allow)
-
-   
+        
+        
     }
     
     // 获取data 会多次调用
-//    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-//        <#code#>
-//    }
+    //    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+    //        <#code#>
+    //    }
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         
         if let download = downloadDic[String(dataTask.taskIdentifier)] {
             let downloadedLength = getFileDataDownloadedLength(tag: dataTask.taskIdentifier)
-//            download.outputStream?.write(UnsafePointer<UInt8>, maxLength: <#T##Int#>)
-            UnsafePointer.init(bitPattern: data.startIndex)
-            download.outputStream!.write(UnsafePointer<UInt8>(data.bytes.advanced(by: <#T##Int#>)), maxLength: data.length)
+            //            download.outputStream?.write(UnsafePointer<UInt8>, maxLength: <#T##Int#>)
+            //            UnsafePointer.init(bitPattern: data.startIndex)
+            //            download.outputStream!.write(UnsafePointer<UInt8>(data.bytes.advanced(by: <#T##Int#>)), maxLength: data.length)
             let progress = Float(downloadedLength) / Float(download.allLength)
             download.stateBlock?(.Running)
             download.progressBlock?(progress)
@@ -362,7 +365,7 @@ private extension LCSwiftDownload {
                 download.stateBlock?(.Failed)
             }
         }
-       
+        
     }
     
 }

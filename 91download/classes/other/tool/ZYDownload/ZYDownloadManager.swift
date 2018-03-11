@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ZYDownloadManager: NSObject,URLSessionDelegate {
+class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     
     // 所有modelAry
     private var modelAry = Array<ZYDownloadModel>()
@@ -85,6 +85,38 @@ class ZYDownloadManager: NSObject,URLSessionDelegate {
             model.operation?.cancel()
             // remove model
         }
+    }
+    
+    // MARK: - URLSessionDownloadDelegate
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        // tmp文件地址
+        print("location"+location.path)
+        let fileName = (downloadTask.response?.suggestedFilename!)!
+        let dirStr  = String.cacheDir("download/video/\(fileName)")()
+        print("文件路径:\(dirStr)")
+        do {
+            try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
+            
+            //let downloadObj = downloadedObj(name: fileName, path: dirStr)
+//            localFileAry.append(fileName)
+//            print("已下载的文件: /n \(localFileAry)")
+            // 存储已下载文件名
+//            UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
+//            UserDefaults.standard.synchronize()
+            
+        } catch  {
+            print("保存文件失败")
+        }
+        session.invalidateAndCancel()
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        <#code#>
+    }
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        <#code#>
     }
 
 }

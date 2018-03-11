@@ -16,7 +16,7 @@ extension URLSessionDownloadTask {
         objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
     }
     func getModel() -> ZYDownloadModel {
-        objc_getAssociatedObject(self, &AssociatedKeys.model)
+        return objc_getAssociatedObject(self, &AssociatedKeys.model) as! ZYDownloadModel
     }
 }
 

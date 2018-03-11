@@ -30,7 +30,7 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         addSubview()
         self.tableView.mj_header.beginRefreshing()
         
-        ZYDownloadTool.shareTool().delegate = self
+        ZYDownloadTool.shareTool.delegate = self
     }
     private func loadLocalFile() {
         if let ary = UserDefaults.standard.array(forKey: "localFileAry") {
@@ -70,13 +70,13 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
     
     
     @objc func start() {
-        ZYDownloadTool.shareTool().download(urlStr: "")
+        ZYDownloadTool.shareTool.download(urlStr: "")
     }
     @objc func pause() {
-        ZYDownloadTool.shareTool().pauseDownload()
+        ZYDownloadTool.shareTool.pauseDownload()
     }
     @objc func resume() {
-        ZYDownloadTool.shareTool().resumeDownload()
+        ZYDownloadTool.shareTool.resumeDownload()
     }
     
     // MARK: - downloaddelegate
