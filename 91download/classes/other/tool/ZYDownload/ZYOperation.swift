@@ -15,8 +15,8 @@ extension URLSessionDownloadTask {
     func setModel(model:ZYDownloadModel) {
         objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
     }
-    func getModel() -> ZYDownloadModel {
-        return objc_getAssociatedObject(self, &AssociatedKeys.model) as! ZYDownloadModel
+    func getModel() -> ZYDownloadModel? {
+        return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
     }
 }
 
@@ -39,7 +39,8 @@ class ZYOperation: Operation {
     private func setTask() {
         if self.model != nil && self.session != nil {
             if let url = model?.fileUrl {
-                let request = URLRequest.init(url: URL.init(string: url)!)
+                var request = URLRequest.init(url: URL.init(string: url)!)
+                request.timeoutInterval = 30
                 self.task = session?.downloadTask(with: request)
             }
         }

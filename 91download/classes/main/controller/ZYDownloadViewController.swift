@@ -10,6 +10,10 @@ import UIKit
 import MJRefresh
 import AVKit
 class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
+    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        
+    }
+    
     
     var currentProgress = ""
 
@@ -28,9 +32,10 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
         addSubview()
+        setupNav()
         self.tableView.mj_header.beginRefreshing()
         
-        ZYDownloadTool.shareTool.delegate = self
+//        ZYDownloadTool.shareTool.delegate = self
     }
     private func loadLocalFile() {
         if let ary = UserDefaults.standard.array(forKey: "localFileAry") {
@@ -38,13 +43,39 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         }
     }
     
+    private func loadLocalFile2() {
+        let cmpAry = ZYDownloadManager.shared.getCompletedModelAry()
+        let downingAry = ZYDownloadManager.shared.getDownloadingModelAry()
+        print( cmpAry.count)
+        print(downingAry.count)
+    }
+    private func setupNav() {
+        self.navigationItem.rightBarButtonItem = self.manageBtn
+    }
+    
+    @objc public func testAction() {
+        let ary = NSArray.init(contentsOf: "download/plist/test.plist".cacheDir().toUrl()!)
+        //let ary = NSArray().type(of: init)(contentsOf: URL.init(fileURLWithPath: "download/plist/test.plist".cacheDir(), isDirectory: true))
+        //let ary = NSMutableArray(contentsOfFile: "download/plist/test.plist".cacheDir())
+//        print(ary)
+        let lab = UILabel.init()
+        lab.text = "download/plist/test.plist".cacheDir()+"______\(ary?.count)"
+        lab.numberOfLines = 5
+        self.view .addSubview(lab)
+        lab.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+            make.left.right.equalTo(self.view)
+        }
+    }
     private func addSubview() {
         self.tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
-            self.loadLocalFile()
+//            self.loadLocalFile()
+            self.loadLocalFile2()
             self.tableView.reloadData()
             self.tableView.mj_header.endRefreshing()
         })
         
+        /**
         view.addSubview(startBtn)
         view.addSubview(pauseBtn)
         view.addSubview(resumeBtn)
@@ -65,6 +96,7 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
             make.centerX.equalTo(self.view)
             make.top.equalTo(pauseBtn.snp.bottom).offset(50)
         }
+         */
     }
     
     
@@ -80,56 +112,116 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
     }
     
     // MARK: - downloaddelegate
-    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        currentProgress = "\(totalBytesWritten) / \(totalBytesExpectedToWrite)"
-        tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: UITableViewRowAnimation.none)
-    }
+//    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+//        currentProgress = "\(totalBytesWritten) / \(totalBytesExpectedToWrite)"
+//        tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: UITableViewRowAnimation.none)
+//    }
 
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let lab = UILabel()
+            lab.text = "正在下载"
+            return lab
+        }
+        if section == 1 {
+            let lab = UILabel()
+            lab.text = "下载完成"
+            return lab
+        }
+        return nil
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
 //        UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
-       
-        print(localFileAry.count)
-        if localFileAry.count != 0 {
-            return localFileAry.count
+        if section == 0 {
+            return ZYDownloadManager.shared.getDownloadingModelAry().count
         }
+        if section == 1 {
+            return ZYDownloadManager.shared.getCompletedModelAry().count
+        }
+//        print(localFileAry.count)
+//        if localFileAry.count != 0 {
+//            return localFileAry.count
+//        }
         return 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if localFileAry.count == 0 {
-            return UITableViewCell()
-        }
+//        if localFileAry.count == 0 {
+//            return UITableViewCell()
+//        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = localFileAry[indexPath.row]
-        cell.detailTextLabel?.text = currentProgress
-        // Configure the cell...
+        let progressLab = UILabel()
+        cell.contentView.addSubview(progressLab)
+        progressLab.snp.makeConstraints { (make) in
+            make.centerY.equalTo(cell)
+            make.right.equalTo(cell)
+        }
+        var model = ZYDownloadModel()
+        if indexPath.section == 0 {
+            model = ZYDownloadManager.shared.getDownloadingModelAry()[indexPath.row]
+        }
+        if indexPath.section == 1 {
+            model =  ZYDownloadManager.shared.getCompletedModelAry()[indexPath.row]
+        }
+        cell.textLabel?.text = model.fileName
+        progressLab.text = model.progress
+        model.progressChangedBlock = { tmpModel in
+            print(tmpModel.progress)
+            DispatchQueue.main.async {
+                progressLab.text = model.progress
+            }
+            
+        }
+//        cell.textLabel?.text = localFileAry[indexPath.row]
+//        cell.detailTextLabel?.text = currentProgress
+        
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let fileName = localFileAry[indexPath.row]
+//        let fileName = localFileAry[indexPath.row]
 //        let playerController = ZYPlayVideoViewController()
 //        self.navigationController?.pushViewController(playerController, animated: true)
 //        playerController.fileUrlStr = fileName
-        let urlStr = String.cacheDir(fileName)()
-        print(urlStr)
-        let item = AVPlayerItem(url:URL(fileURLWithPath: urlStr ))
-        let play = AVPlayer(playerItem:item)
-        let playController = AVPlayerViewController()
-        playController.player = play
-        self.present(playController, animated: true, completion: {
+//        let urlStr = String.cacheDir(fileName)()
+//        print(urlStr)
+        // 正在下载
+        if indexPath.section == 0 {
+            let model = ZYDownloadManager.shared.getDownloadingModelAry()[indexPath.row]
+            if model.status == ZYDownloadStatus.suspended {
+                model.operation?.resume()
+            }else if model.status == ZYDownloadStatus.running {
+                model.operation?.suspend()
+            }else if model.status == ZYDownloadStatus.completed {
+                print("model状态未completed")
+            }
+        }
+        if indexPath.section == 1 {
+            let model = ZYDownloadManager.shared.getCompletedModelAry()[indexPath.row]
+            if model.localPath != nil {
+                let item = AVPlayerItem(url:URL(fileURLWithPath: model.localPath! ))
+                let play = AVPlayer(playerItem:item)
+                let playController = AVPlayerViewController()
+                playController.player = play
+                self.present(playController, animated: true, completion: {
+                    
+                })
+            }
             
-        })
+        }
+        
         
         
 //        let url = URL.init(fileURLWithPath: String.cacheDir(fileName)())
@@ -199,6 +291,13 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         btn.setTitle("继续下载", for: UIControlState.normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         btn.setTitleColor(UIColor.red, for: UIControlState.normal)
+        return btn
+    }()
+    
+    /** 管理 */
+    lazy var manageBtn: UIBarButtonItem = {
+        
+        let btn  = UIBarButtonItem(title: "管理", style: UIBarButtonItemStyle.plain, target: self, action: #selector(testAction))
         return btn
     }()
 }
