@@ -59,7 +59,7 @@ class ZYOperation: Operation {
             if model?.status == ZYDownloadStatus.completed {
                 return
             }
-            model?.status = ZYDownloadStatus.running
+            
             if model?.resumeData != nil {
                 // 有缓存数据
                 task = session?.downloadTask(withResumeData: (model?.resumeData)!)
@@ -84,9 +84,9 @@ class ZYOperation: Operation {
                 // 缓存已下载数据
                 weakSelf!.model?.resumeData = data
                 // 完成后更新status
-                DispatchQueue.main.async {
-                    weakSelf?.model?.status = ZYDownloadStatus.suspended
-                }
+//                DispatchQueue.main.async {
+//                    weakSelf?.model?.status = ZYDownloadStatus.suspended
+//                }
             })
             // 调用原始方法
             task?.suspend()

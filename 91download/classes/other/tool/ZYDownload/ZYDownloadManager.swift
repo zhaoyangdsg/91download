@@ -6,12 +6,14 @@
 //  Copyright © 2018年 me2. All rights reserved.
 //
 
+// 目前功能: 暂停时才会把model.resumeData保存到plist
+
 import UIKit
 
 class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     
     // 所有modelAry
-    private var modelAry = Array<ZYDownloadModel>()
+    private var allModelAry = Array<ZYDownloadModel>()
     
     // 下载完成modelAry
     private var completedmodelAry = Array<ZYDownloadModel>()
@@ -21,6 +23,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     //
     private let comPath = "comFilesAry.plist".cacheDir()
     private let downPath = "downingAry.plist".cacheDir()
+    private let allModelsPath = "modelsAry.plist".cacheDir()
     
     private static var manager = ZYDownloadManager()
     class var shared:ZYDownloadManager {
@@ -46,10 +49,11 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         setModelAry()
         
     }
-    /** 设置 modelAry */
-    private func  setModelAry() {
-
-        if let dicAry = NSArray(contentsOfFile: comPath)  {
+    
+    // 从沙盒中获取model的列表
+    private func getModels(from plistPath: String) -> Array<ZYDownloadModel> {
+        if let dicAry = NSArray(contentsOfFile: plistPath)  {
+            var temAry = Array<ZYDownloadModel>()
             for dic in dicAry {
                 let modelDic = dic as! Dictionary<String,Any>
                 let model = ZYDownloadModel()
@@ -63,78 +67,135 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                 if let localPath = modelDic["localPath"] {
                     model.localPath = localPath as? String
                 }
-                completedmodelAry.append(model)
-            }
-            print(completedmodelAry)
-        }else {
-            print("completedAry 找不到")
-            completedmodelAry = Array<ZYDownloadModel>()
-        }
-        
-        if let dicAry = NSArray(contentsOfFile: downPath) {
-            for dic in dicAry {
-                let modelDic = dic as! Dictionary<String,Any>
-                let model = ZYDownloadModel()
-                if let fileName = modelDic["fileName"]  {
-                    model.fileName = fileName as? String
-                }
-                if let fileUrl = modelDic["fileUrl"] {
-                    model.fileUrl = fileUrl as? String
+                
+                if let status = modelDic["status"] as? Int {
+                    var sts:ZYDownloadStatus
+                    switch status {
+                    case 0 : sts = .completed
+                        break
+                    case 1 : sts = .running
+                        break
+                    default:
+                        sts = .completed
+                    }
+                    
+                    model.status = sts
                 }
                 
-                if let resumeData = modelDic["resumeData"] {
-                    model.resumeData = resumeData as? Data
+                if let resumeData = modelDic["resumeData"] as? Data {
+                    model.resumeData = resumeData
                 }
-                downloadingmodelAry.append(model)
+                if let progress = modelDic["progress"]  {
+                    model.progress = progress as? String
+                }
+                
+                temAry.append(model)
             }
-            print(downloadingmodelAry)
+            print(temAry)
+            return temAry
         }else {
-            print("downloadingmodelAry 找不到")
-            downloadingmodelAry = Array<ZYDownloadModel>()
+            print("\(plistPath) 找不到")
+            return Array<ZYDownloadModel>()
         }
-        
     }
     
-    // 更新 modelAry
-    private func updateModelAry() {
-
-        let comAry = NSMutableArray()
-        for model in completedmodelAry {
+    /** 把本地的modelAry 保存(更新)到沙盒 */
+    func saveModelToPlist(from modelAry: Array<ZYDownloadModel>, to path:String) {
+        let tmpAry = NSMutableArray()
+        
+        for model in modelAry {
             var dic = Dictionary<String,Any>()
             dic["fileName"] = model.fileName
             dic["fileUrl"] = model.fileUrl
             dic["localPath"] = model.localPath
-            comAry.add(dic)
-        }
-        
-        let downAry = NSMutableArray()
-        for model in downloadingmodelAry {
-            var dic = Dictionary<String,Any>()
-            dic["fileName"] = model.fileName
-            dic["fileUrl"] = model.fileUrl
+            dic["progress"] = model.progress
             dic["resumeData"] = model.resumeData
-            downAry.add(dic)
+            // 只保存 completed running 两种状态
+            if model.status != ZYDownloadStatus.completed {
+                dic["status"] = 1
+            }else {
+                dic["status"] = 0
+            }
+            
+            tmpAry.add(dic)
         }
         
-        if comAry.write(toFile: comPath, atomically: true) {
+        if tmpAry.write(toFile: path, atomically: true) {
             print("保存成功")
         }else {
             print("保存失败")
         }
-        if downAry.write(toFile: downPath, atomically: true) {
-            print("保存成功")
-        }else {
-            print("保存失败")
+    }
+    /** 设置 modelAry */
+    private func  setModelAry() {
+
+        self.completedmodelAry = getModels(from: comPath)
+        self.downloadingmodelAry = getModels(from: downPath)
+    }
+
+    /// model.status改变时 (除了completed) 更新downloadingAry
+    func updateDownAry(with newModel:ZYDownloadModel) {
+        var i:Int = 0
+        for model in self.downloadingmodelAry {
+            if model.fileUrl == newModel.fileUrl {
+                self.downloadingmodelAry.remove(at: i)
+                self.downloadingmodelAry.append(newModel)
+                break
+            }
+            i = i+1
         }
-        
-        setModelAry()
     }
     
-    public func getDownloadingModelAry() -> Array<ZYDownloadModel> {
-        return self.downloadingmodelAry
+    /// 从modelArray中删除model 如果是 completedAry 还要删除 localpath下的文件
+    func removeModel(with model:ZYDownloadModel,isCompleted: Bool) {
+        var desAry:Array<ZYDownloadModel>
+        if isCompleted {
+            if model.localPath != nil && FileManager.default.fileExists(atPath: model.localPath!, isDirectory: nil) {
+                do {
+                    try FileManager.default.removeItem(atPath: model.localPath!)
+                }catch {
+                    print("\(model.fileName!) 的本地文件路径出错或文件不存在")
+                }
+            }
+            desAry = self.completedmodelAry
+        }else {
+            desAry = self.downloadingmodelAry
+        }
+        // 删除modelAry中的model
+        var i:Int = 0
+        for tmpModel in desAry {
+            if model.fileUrl == tmpModel.fileUrl {
+                desAry.remove(at: i)
+                break
+            }
+            i = i+1
+        }
+       
+        
     }
+
+    /// 获取downloadingAry
+    public func getDownloadingModelAry() -> Array<ZYDownloadModel> {
+        
+        return getModels(from: downPath)
+    }
+    /// 获取completedAry
     public func getCompletedModelAry() -> Array<ZYDownloadModel> {
-        return self.completedmodelAry
+        return getModels(from: comPath)
+    }
+    
+    /// 把内存的downloadingAry保存到plist
+    func saveDownAryToPlist() {
+        saveModelToPlist(from: downloadingmodelAry, to: downPath)
+    }
+    /// 把内存的completedAry保存到plist
+    func saveCompleteAryToPlist() {
+        saveModelToPlist(from: completedmodelAry, to: comPath)
+    }
+    /// save两个ary到plist
+    func saveBothAryToPlist() {
+        saveDownAryToPlist()
+        saveCompleteAryToPlist()
     }
     
     // 开始下载
@@ -142,12 +203,13 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         if model.status != ZYDownloadStatus.completed {
             
             model.status = ZYDownloadStatus.running
-            
             // 已添加到下载队列
             if model.operation != nil {
-                
                 // 直接操作model的operation 继续下载
                 model.operation?.resume()
+                // 更新downloadingAry中的model
+                updateDownAry(with: model)
+                 
             }else {
                 // 创建新operation 赋给model
                 let operation = ZYOperation.init(model: model, session: session)
@@ -156,8 +218,8 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                 model.operation?.resume()
                 // 把新建的model加入downloadingAry
                 downloadingmodelAry.append(model)
-                
-                updateModelAry()
+                // 保存到plist
+                saveDownAryToPlist()
             }
         }
     }
@@ -165,7 +227,16 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     // 继续下载
     func resumeDownload(with model:ZYDownloadModel) {
         if model.status != ZYDownloadStatus.completed {
+            // 退出程序再回来的时候
+            if model.operation == nil {
+                // 创建新operation 赋给model
+                let operation = ZYOperation.init(model: model, session: session)
+                model.operation = operation
+            }
+            // 在程序中的时候 
             model.operation?.resume()
+            model.status = ZYDownloadStatus.running
+            
         }
     }
     
@@ -173,6 +244,10 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     func pauseDownload(with model:ZYDownloadModel) {
         if model.status != ZYDownloadStatus.completed {
             model.operation?.suspend()
+            model.status = ZYDownloadStatus.suspended
+            // 把resumeData 保存到plist
+            saveDownAryToPlist()
+            
         }
     }
     
@@ -193,50 +268,24 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         let dirStr  = String.cacheDir("mp4/\(fileName)")()
         print("文件路径:\(dirStr)")
         
-            if let model = downloadTask.getModel() {
-                do {
-                    model.status = ZYDownloadStatus.completed
-                    try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
-                    model.localPath = dirStr
-                    
-                    /**
-                    let imgUrlStr = dirStr.split(separator: ".")[0].lowercased()+".jpg" //as! String
-                    if let imgUrl = imgUrlStr.toUrl() {
-                        if let data = UIImageJPEGRepresentation(UIImage.init(imageLiteralResourceName: dirStr), 0.5) {
-                            do {
-                                try data.write(to: imgUrl)
-                                model.fileImg = imgUrlStr
-                            }catch {
-                                print("保存视频图片错误")
-                            }
-                            
-                        }else {
-                            print("视频中获取图片错误")
-                        }
-                    }else {
-                        print("图片名称转url错误")
-                    }
-                    */
-                    // 把model 放入 已完成
-                    completedmodelAry.append(model)
-                    
-                    // 把model 从 未完成 删除
-                    var idx = 0
-                    for modelItem in downloadingmodelAry {
-                        if modelItem.fileUrl == model.fileUrl {
-                            downloadingmodelAry.remove(at: idx)
-                            break
-                        }
-                        idx = idx + 1
-                    }
-                    updateModelAry()
-                } catch  {
-                    print("保存文件失败")
-                }
+        if let model = downloadTask.getModel() {
+            do {
+                model.status = ZYDownloadStatus.completed
+                try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
+                model.localPath = dirStr
+                model.resumeData = nil
+                // 从downingAry 删除model
+                removeModel(with: model, isCompleted: false)
+                // 把model 放入 已完成
+                completedmodelAry.append(model)
+            } catch  {
+                print("保存文件失败")
+            }
 
-            //updateModelAry()
-            
-        }
+        // 保存两个ary到plist
+        saveBothAryToPlist()
+        
+       }
         //session.invalidateAndCancel()
     }
     
@@ -257,6 +306,8 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         if let model = downloadTask.getModel() {
             model.fileName = fileName
             model.progress = String("\(totalBytesWritten) / \(totalBytesExpectedToWrite)")
+            // 更新downloadingAry
+            updateDownAry(with: model)
         }
         print("_____\(totalBytesWritten) / \(totalBytesExpectedToWrite)")
     }

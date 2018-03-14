@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02105DFE6BAEC3BB6D06A3BA /* Pods_91download.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */; };
 		DD2EEC00204A938D00E9BD8B /* ZYDownloadObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2EEBFF204A938D00E9BD8B /* ZYDownloadObject.swift */; };
+		FC2B96452059255C005F0B22 /* ZYDownloadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2B96442059255C005F0B22 /* ZYDownloadingCell.swift */; };
 		FC2C32182029A9FD00370421 /* ZYLeftMemuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */; };
 		FC4CF9DF202ADC2A00662571 /* ZYConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */; };
 		FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */; };
@@ -40,6 +41,7 @@
 		A64C673C8834B6E42F4C8F83 /* Pods_91download.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_91download.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD2EEBFF204A938D00E9BD8B /* ZYDownloadObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadObject.swift; sourceTree = "<group>"; };
 		E5626CCBB27E655648304A7A /* Pods-91download.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-91download.debug.xcconfig"; path = "Pods/Target Support Files/Pods-91download/Pods-91download.debug.xcconfig"; sourceTree = "<group>"; };
+		FC2B96442059255C005F0B22 /* ZYDownloadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYDownloadingCell.swift; sourceTree = "<group>"; };
 		FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZYLeftMemuView.swift; path = 91download/classes/main/view/ZYLeftMemuView.swift; sourceTree = SOURCE_ROOT; };
 		FC4CF9DE202ADC2A00662571 /* ZYConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZYConstant.swift; sourceTree = "<group>"; };
 		FC4CF9E1202D8D0700662571 /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				FC2C32172029A9FD00370421 /* ZYLeftMemuView.swift */,
+				FC2B96442059255C005F0B22 /* ZYDownloadingCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				FCC5F91120510F9F0031463E /* ZYDownloadObj.swift in Sources */,
 				FCC5F907204936D80031463E /* String+Extension.swift in Sources */,
 				FC4CF9E2202D8D0700662571 /* UIBarButtonItem+Extension.swift in Sources */,
+				FC2B96452059255C005F0B22 /* ZYDownloadingCell.swift in Sources */,
 				FCC5F90F204FF0980031463E /* LCSwiftDownload.swift in Sources */,
 				FCC5F918205286F00031463E /* ZYDownloadManager.swift in Sources */,
 				FCC5F90B204E46F70031463E /* ZYPlayVideoViewController.swift in Sources */,

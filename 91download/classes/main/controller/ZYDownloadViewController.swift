@@ -16,8 +16,11 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
     
     
     var currentProgress = ""
-
     
+    /// 已完成数组
+    var cmpAry = Array<ZYDownloadModel>()
+    /// 未完成数组
+    var downAry = Array<ZYDownloadModel>()
 
     var localFileAry = Array<String>()
     
@@ -44,11 +47,12 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
     }
     
     private func loadLocalFile2() {
-        let cmpAry = ZYDownloadManager.shared.getCompletedModelAry()
-        let downingAry = ZYDownloadManager.shared.getDownloadingModelAry()
-        print( cmpAry.count)
-        print(downingAry.count)
+        cmpAry = ZYDownloadManager.shared.getCompletedModelAry()
+        downAry = ZYDownloadManager.shared.getDownloadingModelAry()
+        print("已完成: \(cmpAry.count)")
+        print("未完成: \(downAry.count)")
     }
+    
     private func setupNav() {
         self.navigationItem.rightBarButtonItem = self.manageBtn
     }
@@ -133,6 +137,10 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         return nil
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
@@ -142,15 +150,12 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         
 //        UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
         if section == 0 {
-            return ZYDownloadManager.shared.getDownloadingModelAry().count
+            return downAry.count
         }
         if section == 1 {
-            return ZYDownloadManager.shared.getCompletedModelAry().count
+            return cmpAry.count
         }
-//        print(localFileAry.count)
-//        if localFileAry.count != 0 {
-//            return localFileAry.count
-//        }
+
         return 0
     }
 
@@ -161,6 +166,7 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 //        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        
         let progressLab = UILabel()
         cell.contentView.addSubview(progressLab)
         progressLab.snp.makeConstraints { (make) in
