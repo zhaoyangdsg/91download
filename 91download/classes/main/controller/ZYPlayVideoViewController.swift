@@ -41,7 +41,7 @@ class ZYPlayVideoViewController: UIViewController {
 //            print("资源出错")
 //            return
 //        }
-        let resource = BMPlayerResource(url: URL.init(fileURLWithPath: String.cacheDir(fileUrlStr)()))
+        let resource = BMPlayerResource(url: URL.init(fileURLWithPath: fileUrlStr ))
         player.setVideo(resource: resource)
         player.autoPlay()
         //Listen to when the player is playing or stopped

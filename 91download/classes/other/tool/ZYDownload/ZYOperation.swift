@@ -16,7 +16,10 @@ extension URLSessionDownloadTask {
         objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
     }
     func getModel() -> ZYDownloadModel? {
-        return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
+        if objc_getAssociatedObject(self, &AssociatedKeys.model) != nil {
+            return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
+        }
+        return nil
     }
 }
 
@@ -54,12 +57,13 @@ class ZYOperation: Operation {
     }
     // 开始
     public func resume() {
+        print("operation resume()")
         if model != nil && session != nil {
             // 如果状态是complete return 否则 状态都改为running
             if model?.status == ZYDownloadStatus.completed {
                 return
             }
-            
+            model?.status = ZYDownloadStatus.running
             if model?.resumeData != nil {
                 // 有缓存数据
                 task = session?.downloadTask(withResumeData: (model?.resumeData)!)
@@ -79,15 +83,18 @@ class ZYOperation: Operation {
     // 暂停 挂起
     public func suspend() {
         if task != nil {
-            weak var weakSelf = self
-            task?.cancel(byProducingResumeData: { (data) in
-                // 缓存已下载数据
-                weakSelf!.model?.resumeData = data
-                // 完成后更新status
-//                DispatchQueue.main.async {
-//                    weakSelf?.model?.status = ZYDownloadStatus.suspended
-//                }
-            })
+            if model != nil {
+                model?.status = ZYDownloadStatus.suspended
+            }
+//            weak var weakSelf = self
+//            task?.cancel(byProducingResumeData: { (data) in
+//                // 缓存已下载数据
+//                weakSelf!.model?.resumeData = data
+//                // 完成后更新status
+////                DispatchQueue.main.async {
+////                    weakSelf?.model?.status = ZYDownloadStatus.suspended
+////                }
+//            })
             // 调用原始方法
             task?.suspend()
         }

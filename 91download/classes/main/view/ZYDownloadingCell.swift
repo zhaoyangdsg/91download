@@ -10,12 +10,28 @@ import UIKit
 
 class ZYDownloadingCell: UITableViewCell {
 
+    var model:ZYDownloadModel?
+    {
+        didSet {
+            self.fileNameLab.text = model?.fileName
+            self.progressLab.text = model?.progress
+            if model?.status == ZYDownloadStatus.completed {
+                statusLab.text = "已下载"
+            }else if model?.status == ZYDownloadStatus.running {
+                statusLab.text = "下载中"
+            }else if model?.status == ZYDownloadStatus.suspended {
+                statusLab.text = "暂停中"
+            }else {
+                statusLab.text = "其他状态"
+            }
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    init(with model: ZYDownloadModel , identifier: String) {
-        super.init(style: UITableViewCellStyle.default, reuseIdentifier: identifier)
+    init(style: UITableViewCellStyle , identifier: String) {
+        super.init(style: style, reuseIdentifier: identifier)
         setSubView()
     }
     
@@ -23,6 +39,22 @@ class ZYDownloadingCell: UITableViewCell {
         addSubview(fileNameLab)
         addSubview(progressLab)
         addSubview(statusLab)
+        
+        fileNameLab.snp.makeConstraints { (make) in
+            make.left.top.equalTo(self)
+            make.width.height.equalTo(self).multipliedBy(0.7)
+        }
+        
+        progressLab.snp.makeConstraints { (make) in
+            make.left.right.equalTo(fileNameLab)
+            make.top.equalTo(fileNameLab.snp.bottom)
+            make.bottom.equalTo(self)
+        }
+        
+        statusLab.snp.makeConstraints { (make) in
+            make.right.top.bottom.equalTo(self)
+            make.left.equalTo(fileNameLab.snp.right)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

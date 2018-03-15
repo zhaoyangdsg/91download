@@ -32,11 +32,12 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        //self.tableView.register(ZYDownloadingCell.self, forCellReuseIdentifier: "cellId")
         
         addSubview()
         setupNav()
         self.tableView.mj_header.beginRefreshing()
+        self.tableView.rowHeight = 44
         
 //        ZYDownloadTool.shareTool.delegate = self
     }
@@ -142,13 +143,12 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        
         return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        UserDefaults.standard.set(localFileAry, forKey: "localFileAry")
         if section == 0 {
             return downAry.count
         }
@@ -161,39 +161,46 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        if localFileAry.count == 0 {
-//            return UITableViewCell()
-//        }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        
-        let progressLab = UILabel()
-        cell.contentView.addSubview(progressLab)
-        progressLab.snp.makeConstraints { (make) in
-            make.centerY.equalTo(cell)
-            make.right.equalTo(cell)
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cellId")as? ZYDownloadingCell
+        if cell == nil {
+            cell = ZYDownloadingCell.init(style: UITableViewCellStyle.default, identifier: "cellId")
         }
-        var model = ZYDownloadModel()
+        var model: ZYDownloadModel
         if indexPath.section == 0 {
-            model = ZYDownloadManager.shared.getDownloadingModelAry()[indexPath.row]
+            model = downAry[indexPath.row]
+        } else if indexPath.section == 1 {
+            model = cmpAry[indexPath.row]
+        }else {
+            model = ZYDownloadModel()
         }
-        if indexPath.section == 1 {
-            model =  ZYDownloadManager.shared.getCompletedModelAry()[indexPath.row]
-        }
-        cell.textLabel?.text = model.fileName
-        progressLab.text = model.progress
-        model.progressChangedBlock = { tmpModel in
-            print(tmpModel.progress)
-            DispatchQueue.main.async {
-                progressLab.text = model.progress
-            }
-            
-        }
-//        cell.textLabel?.text = localFileAry[indexPath.row]
-//        cell.detailTextLabel?.text = currentProgress
+        cell?.model = model
         
-
-        return cell
+        model.progressChangedBlock = { tmpModel in
+            print("下载进度改变_\(tmpModel.progress)")
+            DispatchQueue.main.async {
+                cell?.progressLab.text = tmpModel.progress
+            }
+        }
+        
+        model.statusChangedBlock = { tmpModel in
+            print("下载状态改变_\(tmpModel.status)")
+            DispatchQueue.main.async {
+                if tmpModel.status == ZYDownloadStatus.completed {
+                    cell?.statusLab.text = "已下载"
+                }else if tmpModel.status == ZYDownloadStatus.running {
+                    cell?.statusLab.text = "下载中"
+                }else if tmpModel.status == ZYDownloadStatus.suspended {
+                    cell?.statusLab.text = "暂停中"
+                }else if tmpModel.status == ZYDownloadStatus.failed {
+                    cell?.statusLab.text = "下载失败"
+                }else {
+                    cell?.statusLab.text = "其他状态"
+                }
+            }
+        }
+        
+        return cell!
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -205,36 +212,46 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 //        print(urlStr)
         // 正在下载
         if indexPath.section == 0 {
-            let model = ZYDownloadManager.shared.getDownloadingModelAry()[indexPath.row]
+            let model = self.downAry[indexPath.row]
             if model.status == ZYDownloadStatus.suspended {
-                model.operation?.resume()
+                if model.operation != nil {
+                    model.operation?.resume()
+                }else {
+                    ZYDownloadManager.shared.resumeDownload(with: model)
+                }
             }else if model.status == ZYDownloadStatus.running {
-                model.operation?.suspend()
+                if model.operation != nil {
+                    model.operation?.suspend()
+                }else {
+                    ZYDownloadManager.shared.resumeDownload(with: model)
+                }
             }else if model.status == ZYDownloadStatus.completed {
-                print("model状态未completed")
+                print("model状态:completed")
+                let playerController = ZYPlayVideoViewController()
+                self.navigationController?.pushViewController(playerController, animated: true)
+                playerController.fileUrlStr = model.localPath
+            }else {
+                ZYDownloadManager.shared.startDownload(with: model)
             }
         }
         if indexPath.section == 1 {
             let model = ZYDownloadManager.shared.getCompletedModelAry()[indexPath.row]
             if model.localPath != nil {
-                let item = AVPlayerItem(url:URL(fileURLWithPath: model.localPath! ))
-                let play = AVPlayer(playerItem:item)
-                let playController = AVPlayerViewController()
-                playController.player = play
-                self.present(playController, animated: true, completion: {
-                    
-                })
+//                let item = AVPlayerItem(url:URL(fileURLWithPath: (model.fileName?.cacheDir())! ))
+//                let play = AVPlayer(playerItem:item)
+//                let playController = AVPlayerViewController()
+//                playController.player = play
+//                self.present(playController, animated: true, completion: {
+//
+//                })
+                
+                let playerController = ZYPlayVideoViewController()
+                self.navigationController?.pushViewController(playerController, animated: true)
+                playerController.fileUrlStr = model.fileName?.cacheDir()
             }
             
         }
-        
-        
-        
-//        let url = URL.init(fileURLWithPath: String.cacheDir(fileName)())
-//        let webView = UIWebView()
-//        webView.frame = CGRect.init(x: 0, y: 0, width: 300, height: 200)
-//        self.view.addSubview(webView)
-//        webView.loadRequest(URLRequest.init(url: url))
+
     }
     
 
