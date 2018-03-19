@@ -21,30 +21,39 @@ enum ZYDownloadStatus {
 class ZYDownloadModel: NSObject {
     typealias ZYProgressChangedBlock = ((ZYDownloadModel)->())
     typealias ZYStatusChangedBlock = ((ZYDownloadModel)->())
-    var fileName:String?
+    typealias ZYFileNameChangedBlock = ((ZYDownloadModel)->())
+    var fileName:String? {
+        didSet {
+            weak var weakSelf = self
+            if fileNameChangedBlock != nil {
+                fileNameChangedBlock!(weakSelf!)
+            }
+        }
+    }
     var fileUrl:String?
     var fileTitle:String?
     var fileImg:String?
-    
     var resumeData:Data?
     var localPath:String?
     var progress:String? {
         didSet {
+            weak var weakSelf = self
             if progressChangedBlock != nil {
-                progressChangedBlock!(self)
+                progressChangedBlock!(weakSelf!)
             }
         }
     }
     var status:ZYDownloadStatus? {
         didSet {
+            weak var weakSelf = self
             if statusChangedBlock != nil {
-                statusChangedBlock!(self)
+                statusChangedBlock!(weakSelf!)
             }
         }
     }
     
     var progressChangedBlock:ZYProgressChangedBlock?
     var statusChangedBlock:ZYStatusChangedBlock?
-    
+    var fileNameChangedBlock:ZYFileNameChangedBlock?
     var operation:ZYOperation?
 }

@@ -8,20 +8,29 @@
 
 import UIKit
 
-extension URLSessionDownloadTask {
-    private struct AssociatedKeys {
-        static var model = "zy_model"
-    }
-    func setModel(model:ZYDownloadModel) {
-        objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
-    }
-    func getModel() -> ZYDownloadModel? {
-        if objc_getAssociatedObject(self, &AssociatedKeys.model) != nil {
-            return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
-        }
-        return nil
-    }
-}
+//extension URLSessionDownloadTask {
+//    private struct AssociatedKeys {
+//        static var model = "zy_model"
+//    }
+////    var model:ZYDownloadModel? {
+////        get {
+////
+////            return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
+////        }
+////        set {
+////            objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+////        }
+////    }
+//    func setModel(model:ZYDownloadModel) {
+//        objc_setAssociatedObject(self, &AssociatedKeys.model, model, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+//    }
+//    func getModel() -> ZYDownloadModel? {
+//        if objc_getAssociatedObject(self, &AssociatedKeys.model) != nil {
+//            return objc_getAssociatedObject(self, &AssociatedKeys.model) as? ZYDownloadModel
+//        }
+//        return nil
+//    }
+//}
 
 class ZYOperation: Operation {
     weak var model:ZYDownloadModel?
@@ -47,12 +56,13 @@ class ZYOperation: Operation {
                 self.task = session?.downloadTask(with: request)
             }
         }
-        configTask()
+        //configTask()
     }
     // 配置task 把model配置给task
     private func configTask() {
         if model != nil {
-            task?.setModel(model: model!)
+             //task?.model = model
+            //task?.setModel(model: model!)
         }
     }
     // 开始
@@ -68,8 +78,13 @@ class ZYOperation: Operation {
                 // 有缓存数据
                 task = session?.downloadTask(withResumeData: (model?.resumeData)!)
                 // 给task 配置model
-                configTask()
-            }else if task == nil {
+                //configTask()
+            }
+//            } else if model?.resumeData == nil && task != nil {
+//                task?.cancel()
+//                setTask()
+//            }
+            else if task == nil {
                 // task 还没有设置 先去设置
                 setTask()
             }
@@ -86,17 +101,19 @@ class ZYOperation: Operation {
             if model != nil {
                 model?.status = ZYDownloadStatus.suspended
             }
-//            weak var weakSelf = self
-//            task?.cancel(byProducingResumeData: { (data) in
-//                // 缓存已下载数据
-//                weakSelf!.model?.resumeData = data
-//                // 完成后更新status
-////                DispatchQueue.main.async {
-////                    weakSelf?.model?.status = ZYDownloadStatus.suspended
-////                }
-//            })
             // 调用原始方法
             task?.suspend()
+            weak var weakSelf = self
+            task?.cancel(byProducingResumeData: { (data) in
+                // 缓存已下载数据
+                weakSelf!.model?.resumeData = data
+                // 完成后更新status
+//                DispatchQueue.main.async {
+//                    weakSelf?.model?.status = ZYDownloadStatus.suspended
+//                }
+                ZYDownloadManager.shared.updateDownAry(with: (weakSelf?.model)!)
+            })
+
         }
     }
     /** 取消 重写cancel */

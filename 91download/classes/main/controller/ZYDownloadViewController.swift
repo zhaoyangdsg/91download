@@ -9,11 +9,7 @@
 import UIKit
 import MJRefresh
 import AVKit
-class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
-    func didWriteData(bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        
-    }
-    
+class ZYDownloadViewController: UITableViewController {
     
     var currentProgress = ""
     
@@ -24,23 +20,24 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 
     var localFileAry = Array<String>()
     
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        //self.tableView.register(ZYDownloadingCell.self, forCellReuseIdentifier: "cellId")
         
         addSubview()
         setupNav()
         self.tableView.mj_header.beginRefreshing()
-        self.tableView.rowHeight = 44
-        
-//        ZYDownloadTool.shareTool.delegate = self
+        self.tableView.rowHeight = 60
+
     }
+    
     private func loadLocalFile() {
         if let ary = UserDefaults.standard.array(forKey: "localFileAry") {
             localFileAry = ary as! Array<String>
@@ -54,15 +51,24 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         print("未完成: \(downAry.count)")
     }
     
+    /// 初始化downAry 把running -> suspend
+    func resetDownAryStatusToSuspend() {
+        var tmpAry = Array<ZYDownloadModel>()
+        for model in downAry {
+            model.status = ZYDownloadStatus.suspended
+            tmpAry.append(model)
+        }
+        downAry.replaceSubrange(0..<downAry.count-1, with: tmpAry)
+    }
+    
     private func setupNav() {
+        self.title = "下载管理"
         self.navigationItem.rightBarButtonItem = self.manageBtn
     }
     
     @objc public func testAction() {
         let ary = NSArray.init(contentsOf: "download/plist/test.plist".cacheDir().toUrl()!)
-        //let ary = NSArray().type(of: init)(contentsOf: URL.init(fileURLWithPath: "download/plist/test.plist".cacheDir(), isDirectory: true))
-        //let ary = NSMutableArray(contentsOfFile: "download/plist/test.plist".cacheDir())
-//        print(ary)
+
         let lab = UILabel.init()
         lab.text = "download/plist/test.plist".cacheDir()+"______\(ary?.count)"
         lab.numberOfLines = 5
@@ -77,8 +83,13 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 //            self.loadLocalFile()
             self.loadLocalFile2()
             self.tableView.reloadData()
-            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_header.endRefreshing ()
         })
+        
+        
+        let headerView = UIView()
+        headerView.frame = CGRect.init(x: 0, y: 0, width: 1, height: 40)
+        self.tableView.tableHeaderView = headerView
         
         /**
         view.addSubview(startBtn)
@@ -138,8 +149,21 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
         return nil
     }
     
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let view = UIView()
+            view.backgroundColor = self.tableView.backgroundColor
+            return view
+        }
+        return nil
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
+        return 30
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 44
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -175,6 +199,12 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
             model = ZYDownloadModel()
         }
         cell?.model = model
+        
+        model.fileNameChangedBlock = { tmpModel in
+            DispatchQueue.main.async {
+                cell?.fileNameLab.text = tmpModel.fileName
+            }
+        }
         
         model.progressChangedBlock = { tmpModel in
             print("下载进度改变_\(tmpModel.progress)")
@@ -246,12 +276,34 @@ class ZYDownloadViewController: UITableViewController,ZYDownloadToolDelegate {
 //                })
                 
                 let playerController = ZYPlayVideoViewController()
-                self.navigationController?.pushViewController(playerController, animated: true)
+//                self.navigationController?.pushViewController(playerController, animated: true)
                 playerController.fileUrlStr = model.fileName?.cacheDir()
+                self.present(playerController, animated: true, completion: nil)
+                
             }
             
         }
+        tableView.deselectRow(at: indexPath, animated: true)
 
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+       let deleteAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.default, title: "删除") { (action, indexPath) in
+            if indexPath.section == 0 {
+                let model = self.downAry[indexPath.row]
+                model.operation?.cancel()
+                ZYDownloadManager.shared.removeModel(with: model, isCompleted: false)
+                self.downAry = ZYDownloadManager.shared.getDownloadingModelAry()
+                tableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.fade)
+            }else {
+                let model = self.cmpAry[indexPath.row]
+                ZYDownloadManager.shared.removeModel(with: model, isCompleted: true)
+                self.cmpAry = ZYDownloadManager.shared.getCompletedModelAry()
+                tableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.fade)
+            }
+        
+        }
+        return [deleteAction]
     }
     
 

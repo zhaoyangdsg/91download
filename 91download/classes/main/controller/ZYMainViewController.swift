@@ -18,7 +18,8 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.red
         setupSubView()
-        webView.loadRequest(URLRequest(url: URL(string: "http://91dizhi.space")!))
+        webView.loadRequest(URLRequest(url: URL(string: "http://91.91p30.space")!)) //http://91.91p30.space
+//        webView.loadRequest(URLRequest(url: URL(string: "http://91dizhi.space")!))
         webView.scrollView.mj_header = MJRefreshNormalHeader.init(refreshingBlock: {
             self.refresh()
         })
@@ -32,14 +33,19 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     }
     
     func setupNav() {
-//        navigationItem.leftBarButtonItems = [backBtn]
-        navigationItem.leftBarButtonItem = backBtn
+        self.title = "首页"
+        navigationItem.leftBarButtonItems = [backBtn,stopBtn]
+//        navigationItem.leftBarButtonItem = backBtn
         //navigationItem.rightBarButtonItem = downloadBarbtn
         
     }
     
     @objc func goback() {
         self.webView.goBack()
+    }
+    @objc func stopLoad() {
+        self.webView.stopLoading()
+        self.webView.scrollView.mj_header.endRefreshing()
     }
     func refresh() {
         self.webView.reload()
@@ -127,7 +133,7 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
 //            //self.navigationController?.pushViewController(ZYDownloadViewController(), animated: true)
 //            self.navigationController?.tabBarController?.selectedIndex = 2
 //            downloadTool.delegate = navigationController?.tabBarController?.selectedViewController
-            
+//            temUrlStr = "http://113.105.142.78/6773A35079C3A818F0427124E4/03000A01005A7D0189A75BB4624DB331F7A440-68E1-4963-97A6-10457697B70C.mp4?ccode=0512&duration=138&expire=18000&psid=89b74e9caa1dfe7ed184f4d24e3b7559&ups_client_netip=7921d67a&ups_ts=1521433467&ups_userid=&utid=%2BJNuD3LkjysCAQ6Xx485CHnS&vid=XMzM4OTczNzQyOA%3D%3D&vkey=A267c53fab2e2cda3c40454517b591c0a"
             let model = ZYDownloadModel.init()
             model.fileUrl = temUrlStr
             ZYDownloadManager.shared.startDownload(with: model)
@@ -140,6 +146,12 @@ class ZYMainViewController: UIViewController,UIWebViewDelegate {
     /** backBtn */
     lazy var backBtn: UIBarButtonItem = {
         let btn = UIBarButtonItem.init(image: UIImage.init(named: "back_T_Nav"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(goback))
+        
+        return btn
+    }()
+    /** stopBtn */
+    lazy var stopBtn: UIBarButtonItem = {
+        let btn = UIBarButtonItem.init(image: UIImage.init(named: "btn_close"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(stopLoad))
         
         return btn
     }()

@@ -30,7 +30,7 @@ class ZYTabBarViewController: UITabBarController {
         tabitem2.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.green], for: UIControlState.selected)
         vc2.tabBarItem = tabitem2
         
-        let vc3 = ZYNavViewController(rootViewController: ZYDownloadViewController())
+        let vc3 = ZYNavViewController(rootViewController: ZYDownloadViewController.init(style: UITableViewStyle.grouped))
         let tabitem3 = UITabBarItem(title: "下载", image: UIImage.init(named: "project_normal") , selectedImage: UIImage.init(named: "project_selected"))
         tabitem3.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.gray], for: UIControlState.normal)
         tabitem3.setTitleTextAttributes( [NSAttributedStringKey.foregroundColor:UIColor.green], for: UIControlState.selected)
