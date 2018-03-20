@@ -55,6 +55,13 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         //setModelAry()
         
     }
+    // 获取新session
+    private func newSesson() -> URLSession{
+        let config = URLSessionConfiguration.background(withIdentifier: "com.zy.91download") //.default
+        config.isDiscretionary = true
+        let session = URLSession.init(configuration: config, delegate: self, delegateQueue: nil)
+        return session
+    }
     
     // 从沙盒中获取model的列表
     private func getModels(from plistPath: String) -> Array<ZYDownloadModel> {
@@ -143,12 +150,13 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     /** 设置 modelAry */
     private func  setModelAry() {
 
-        self.completedmodelAry = getModels(from: comPath)
-        self.downloadingmodelAry = getModels(from: downPath)
+        self.completedmodelAry = getCompletedModelAry() // getModels(from: comPath)
+        self.downloadingmodelAry = getDownloadingModelAry() // getModels(from: downPath)
     }
 
     /// model.status改变时 (除了completed) 更新downloadingAry
     func updateDownAry(with newModel:ZYDownloadModel) {
+        setModelAry()
         var i:Int = 0
         for model in self.downloadingmodelAry {
             if model.fileUrl == newModel.fileUrl {
@@ -164,6 +172,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     
     /// model.status改变时 (除了completed) 更新downloadingAry
     func updateCompleteAry(with newModel:ZYDownloadModel) {
+        setModelAry()
         var i:Int = 0
         for model in self.completedmodelAry {
             if model.fileUrl == newModel.fileUrl {
@@ -242,7 +251,9 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     /// 从downAry中 根据url获取model
     func getModelFromDownAry(fileUrl:String) ->ZYDownloadModel?{
         for model in self.downloadingmodelAry {
-            if model.fileUrl == fileUrl {
+            print(fileUrl)
+            print(model.fileUrl)
+            if model.fileUrl != nil && model.fileUrl! == fileUrl {
                 return model
             }
         }
@@ -265,16 +276,16 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                  
             }else {
                 // 创建新operation 赋给model
-                let operation = ZYOperation.init(model: model, session: session)
+                let operation = ZYOperation.init(model: model, session: newSesson())
                 model.operation = operation
                 queue.addOperation(operation)
-                
-                // 开始下载
-                model.operation?.resume()
                 // 把新建的model加入downloadingAry
                 downloadingmodelAry.append(model)
                 // 保存到plist
                 saveDownAryToPlist()
+                // 开始下载
+                model.operation?.resume()
+                
             }
         }
     }
@@ -284,13 +295,24 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         if model.status != ZYDownloadStatus.completed {
             // 退出程序再回来的时候
             if model.operation == nil {
+                // 情况2: 从operationAry中取出operation
+                print(queue.operations)
+                for tmpOperation in queue.operations {
+                    if tmpOperation.isKind(of: ZYOperation.self) {
+                        let opt = tmpOperation as! ZYOperation
+                        if opt.model?.fileUrl == model.fileUrl {
+                            opt.resume()
+                            model.operation = opt
+                            return
+                        }
+                    }
+                }
+                
                 // 情况1: 新打开 没有operation
                 // 创建新operation 赋给model
-                let operation = ZYOperation.init(model: model, session: session)
+                let operation = ZYOperation.init(model: model, session: newSesson())
                 model.operation = operation
                 queue.addOperation(operation)
-                
-                // 情况2: 从operationAry中取出operation
             }
             
             // 在程序中的时候 
@@ -400,6 +422,8 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
 //                    // 同步resumeData
 //                    updateDownAry(with: model)
 //                }
+            }else {
+                print("model_\(task.response?.suggestedFilename) 下载出错")
             }
         }
     }

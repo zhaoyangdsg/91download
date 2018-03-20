@@ -294,14 +294,15 @@ class ZYDownloadViewController: UITableViewController {
                 model.operation?.cancel()
                 ZYDownloadManager.shared.removeModel(with: model, isCompleted: false)
                 self.downAry = ZYDownloadManager.shared.getDownloadingModelAry()
-                tableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.fade)
+//                ZYDownloadManager.shared.saveDownAryToPlist()
+                //tableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.fade)
             }else {
                 let model = self.cmpAry[indexPath.row]
                 ZYDownloadManager.shared.removeModel(with: model, isCompleted: true)
                 self.cmpAry = ZYDownloadManager.shared.getCompletedModelAry()
-                tableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.fade)
+                //tableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.fade)
             }
-        
+            tableView.reloadData()
         }
         return [deleteAction]
     }

@@ -104,15 +104,15 @@ class ZYOperation: Operation {
             // 调用原始方法
             task?.suspend()
             weak var weakSelf = self
-            task?.cancel(byProducingResumeData: { (data) in
+           // task?.cancel(byProducingResumeData: { (data) in
                 // 缓存已下载数据
-                weakSelf!.model?.resumeData = data
+               // weakSelf!.model?.resumeData = data
                 // 完成后更新status
 //                DispatchQueue.main.async {
 //                    weakSelf?.model?.status = ZYDownloadStatus.suspended
 //                }
-                ZYDownloadManager.shared.updateDownAry(with: (weakSelf?.model)!)
-            })
+               // ZYDownloadManager.shared.updateDownAry(with: (weakSelf?.model)!)
+           // })
 
         }
     }
