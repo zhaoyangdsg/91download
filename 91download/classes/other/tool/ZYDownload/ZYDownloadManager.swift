@@ -350,9 +350,11 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
         let fileName = (downloadTask.response?.suggestedFilename!)!
         let dirStr  = String.cacheDir("\(fileName)")()
         print("文件路径:\(dirStr)")
-        print("预计文件大小:_ \(downloadTask.response?.expectedContentLength)")
+      
         if let url = downloadTask.response?.url {
+            
             if let model =  getModelFromDownAry(fileUrl: url.absoluteString) {
+              
                 model.status = ZYDownloadStatus.completed
                 model.resumeData = nil
                 
@@ -373,33 +375,8 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                     updateDownAry(with: model)
                     saveDownAryToPlist()
                 }
-              
-                
-                
             }
         }
-        /*
-        if let model = downloadTask.getModel() {
-            model.status = ZYDownloadStatus.completed
-            model.resumeData = nil
-            
-            do {
-                try FileManager.default.moveItem(atPath: location.path, toPath: dirStr)
-                
-                model.localPath = dirStr
-            } catch  {
-                print("保存文件失败")
-            }
-            
-            // 从downingAry 删除model
-            removeModel(with: model, isCompleted: false)
-            // 把model 放入 已完成
-            completedmodelAry.append(model)
-            
-            // 保存两个ary到plist
-            saveBothAryToPlist()
-       }
-         */
        
         //session.invalidateAndCancel()
     }
@@ -417,11 +394,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                         updateDownAry(with: model)
                     }
                 }
-//                if let model = (task as! URLSessionDownloadTask).getModel() {
-//                    model.resumeData = data
-//                    // 同步resumeData
-//                    updateDownAry(with: model)
-//                }
+
             }else {
                 print("model_\(task.response?.suggestedFilename) 下载出错")
             }
@@ -443,17 +416,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                 updateDownAry(with: model)
             }
         }
-        
-//        if let model = downloadTask.getModel() {
-//            if model.fileName == nil {
-//                model.fileName = fileName
-//            }
-//            DispatchQueue.main.async {
-//                model.progress = String("\(totalBytesWritten) / \(totalBytesExpectedToWrite)")
-//            }
-//            // 更新downloadingAry
-//            updateDownAry(with: model)
-//        }
+
         print("_____\(totalBytesWritten) / \(totalBytesExpectedToWrite)")
     }
 

@@ -118,15 +118,15 @@ class ZYOperation: Operation {
     }
     /** 取消 重写cancel */
     public override func cancel() {
+        super.cancel()
         if let model = self.model {
             model.status = ZYDownloadStatus.completed
         }
-        if let task = self.task {
-            task.cancel()
+        if  self.task != nil{
+            self.task?.cancel()
+             self.task = nil
         }
-        task = nil
-        
-        super.cancel()
+ 
     }
     
     // 结束
