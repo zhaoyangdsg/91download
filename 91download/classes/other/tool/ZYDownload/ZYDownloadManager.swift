@@ -44,7 +44,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     }()
     
     /** queue */
-    lazy var queue: OperationQueue = {
+     var queue: OperationQueue = {
         let queue = OperationQueue.init()
         queue.maxConcurrentOperationCount = 3
         return queue
@@ -57,7 +57,8 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
     }
     // 获取新session
     private func newSesson() -> URLSession{
-        let config = URLSessionConfiguration.background(withIdentifier: "com.zy.91download") //.default
+       
+        let config = URLSessionConfiguration.background(withIdentifier: "91download_\( Date.init().description)") //.default
         config.isDiscretionary = true
         let session = URLSession.init(configuration: config, delegate: self, delegateQueue: nil)
         return session
@@ -279,12 +280,13 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                 let operation = ZYOperation.init(model: model, session: newSesson())
                 model.operation = operation
                 queue.addOperation(operation)
+                print(queue.operationCount)
                 // 把新建的model加入downloadingAry
                 downloadingmodelAry.append(model)
                 // 保存到plist
                 saveDownAryToPlist()
                 // 开始下载
-                model.operation?.resume()
+                //model.operation?.resume()
                 
             }
         }
@@ -296,6 +298,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
             // 退出程序再回来的时候
             if model.operation == nil {
                 // 情况2: 从operationAry中取出operation
+                print(queue.operationCount)
                 print(queue.operations)
                 for tmpOperation in queue.operations {
                     if tmpOperation.isKind(of: ZYOperation.self) {
@@ -313,6 +316,7 @@ class ZYDownloadManager: NSObject,URLSessionDownloadDelegate {
                 let operation = ZYOperation.init(model: model, session: newSesson())
                 model.operation = operation
                 queue.addOperation(operation)
+                print(queue.operationCount)
             }
             
             // 在程序中的时候 

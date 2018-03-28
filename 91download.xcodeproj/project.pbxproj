@@ -575,7 +575,7 @@
 				DEVELOPMENT_TEAM = H3S239MD82;
 				GCC_PREFIX_HEADER = /classes/other/ZYConstant.swift;
 				INFOPLIST_FILE = 91download/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zy.91download;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -594,7 +594,7 @@
 				DEVELOPMENT_TEAM = H3S239MD82;
 				GCC_PREFIX_HEADER = /classes/other/ZYConstant.swift;
 				INFOPLIST_FILE = 91download/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zy.91download;
 				PRODUCT_NAME = "$(TARGET_NAME)";

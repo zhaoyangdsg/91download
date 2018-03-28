@@ -41,6 +41,10 @@ class ZYOperation: Operation {
 //        super.init()
 //    }
     
+    override func main() {
+        
+    }
+    
     public init(model:ZYDownloadModel ,session:URLSession) {
         super.init()
         self.model = model
@@ -65,6 +69,7 @@ class ZYOperation: Operation {
             //task?.setModel(model: model!)
         }
     }
+    // 必看 http://www.cocoachina.com/ios/20150807/12911.html
     // 开始
     public func resume() {
         print("operation resume()")
